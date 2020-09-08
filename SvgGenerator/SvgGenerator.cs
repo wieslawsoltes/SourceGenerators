@@ -502,7 +502,7 @@ sb.AppendLine($"{indent}// TODO:");
     {
         public void Initialize(InitializationContext context)
         {
-            //Debugger.Launch();
+            Debugger.Launch();
         }
 
         public void Execute(SourceGeneratorContext context)
