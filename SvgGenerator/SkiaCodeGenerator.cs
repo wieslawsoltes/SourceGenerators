@@ -43,7 +43,8 @@ namespace Svg
                 {
                     case SP.ClipPathCanvasCommand clipPathCanvasCommand:
                         {
-sb.AppendLine($"{indent}// TODO: ClipPath");
+                            // TODO:
+                            sb.AppendLine($"{indent}// TODO: ClipPath");
                             //var path = clipPathCanvasCommand.ClipPath.ToSKPath();
                             //var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
                             //var antialias = clipPathCanvasCommand.Antialias;
@@ -91,7 +92,8 @@ sb.AppendLine($"{indent}// TODO: ClipPath");
                         {
                             if (drawImageCanvasCommand.Image != null)
                             {
-sb.AppendLine($"{indent}// TODO: DrawImage");
+                                // TODO:
+                                sb.AppendLine($"{indent}// TODO: DrawImage");
                                 //var image = drawImageCanvasCommand.Image.ToSKImage();
                                 //var source = drawImageCanvasCommand.Source.ToSKRect();
                                 //var dest = drawImageCanvasCommand.Dest.ToSKRect();
@@ -116,7 +118,8 @@ sb.AppendLine($"{indent}// TODO: DrawImage");
                         {
                             if (drawPositionedTextCanvasCommand.TextBlob != null && drawPositionedTextCanvasCommand.TextBlob.Points != null && drawPositionedTextCanvasCommand.Paint != null)
                             {
-sb.AppendLine($"{indent}// TODO: DrawTextBlob");
+                                // TODO:
+                                sb.AppendLine($"{indent}// TODO: DrawTextBlob");
                                 //var text = drawPositionedTextCanvasCommand.TextBlob.Text;
                                 //var points = drawPositionedTextCanvasCommand.TextBlob.Points.ToSKPoints();
                                 //var paint = drawPositionedTextCanvasCommand.Paint.ToSKPaint();
@@ -143,7 +146,8 @@ sb.AppendLine($"{indent}// TODO: DrawTextBlob");
                         {
                             if (drawTextOnPathCanvasCommand.Path != null && drawTextOnPathCanvasCommand.Paint != null)
                             {
-sb.AppendLine($"{indent}// TODO: DrawTextOnPath");
+                                // TODO:
+                                sb.AppendLine($"{indent}// TODO: DrawTextOnPath");
                                 //var text = drawTextOnPathCanvasCommand.Text;
                                 //var path = drawTextOnPathCanvasCommand.Path.ToSKPath();
                                 //var hOffset = drawTextOnPathCanvasCommand.HOffset;
