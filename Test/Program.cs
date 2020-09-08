@@ -9,7 +9,8 @@ namespace Test
     {
         static void Debug()
         {
-            var path = @"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\e-ellipse-001.svg";
+            var path = @"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\__tiger.svg";
+            //var path = @"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\e-ellipse-001.svg";
             //var path = "/home/ubuntu/projects/SourceGenerators/Test/Svg/e-ellipse-001.svg";
             var svg = System.IO.File.ReadAllText(path);
             SvgDocument.SkipGdiPlusCapabilityCheck = true;
