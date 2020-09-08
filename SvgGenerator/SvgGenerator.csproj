@@ -16,7 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Svg.Skia" Version="0.4.1" />
+    <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" />
   </ItemGroup>
 
 </Project>
