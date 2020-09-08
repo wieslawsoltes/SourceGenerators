@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -506,8 +507,30 @@ sb.AppendLine($"{indent}// TODO:");
 
         public void Execute(SourceGeneratorContext context)
         {
+            try
+            {
+                ExecuteInternal(context);
+            }
+            catch (Exception e)
+            {
+                //This is temporary till https://github.com/dotnet/roslyn/issues/46084 is fixed
+                context.ReportDiagnostic(Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "SI0000",
+                        "An exception was thrown by the SvgGenerator generator",
+                        "An exception was thrown by the SvgGenerator generator: '{0}'",
+                        "SvgGenerator",
+                        DiagnosticSeverity.Error,
+                        isEnabledByDefault: true),
+                    Location.None,
+                    e.ToString()));
+            }
+        }
 
-            var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private void ExecuteInternal(SourceGeneratorContext context)
+        {
+           var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
 
             foreach (var file in files)
             {
