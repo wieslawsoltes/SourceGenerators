@@ -102,12 +102,32 @@ namespace Svg
             }
         }
 
-        // TODO: ToSKTextEncoding
+        public static string ToSKTextEncoding(this SP.TextEncoding textEncoding)
+        {
+            switch (textEncoding)
+            {
+                default:
+                case SP.TextEncoding.Utf8:
+                    return "SKTextEncoding.Utf8";
+                case SP.TextEncoding.Utf16:
+                    return "SKTextEncoding.Utf16";
+                case SP.TextEncoding.Utf32:
+                    return "SKTextEncoding.Utf32";
+                case SP.TextEncoding.GlyphId:
+                    return "SKTextEncoding.GlyphId";
+            }
+        }
+
         // TODO: ToSKFontStyleWeight
         // TODO: ToSKFontStyleWidth
         // TODO: ToSKFontStyleSlant
         // TODO: ToSKTypeface
-        // TODO: ToSKColor
+
+        public static string ToSKColor(this SP.Color color)
+        {
+            return $"new SKColor({color.Red}, {color.Green}, {color.Blue}, {color.Alpha})";
+        }
+
         // TODO: ToSKColors
         // TODO: ToSKColorF
         // TODO: ToSKColors
@@ -119,13 +139,92 @@ namespace Svg
         // TODO: ToSKImageFilter
         // TODO: ToSKImageFilters
         // TODO: ToSKPathEffect
-        // TODO: ToSKBlendMode
-        // TODO: ToSKFilterQuality
+
+        public static string ToSKBlendMode(this SP.BlendMode blendMode)
+        {
+            switch (blendMode)
+            {
+                default:
+                case SP.BlendMode.Clear:
+                    return "SKBlendMode.Clear";
+                case SP.BlendMode.Src:
+                    return "SKBlendMode.Src";
+                case SP.BlendMode.Dst:
+                    return "SKBlendMode.Dst";
+                case SP.BlendMode.SrcOver:
+                    return "SKBlendMode.SrcOver";
+                case SP.BlendMode.DstOver:
+                    return "SKBlendMode.DstOver";
+                case SP.BlendMode.SrcIn:
+                    return "SKBlendMode.SrcIn";
+                case SP.BlendMode.DstIn:
+                    return "SKBlendMode.DstIn";
+                case SP.BlendMode.SrcOut:
+                    return "SKBlendMode.SrcOut";
+                case SP.BlendMode.DstOut:
+                    return "SKBlendMode.DstOut";
+                case SP.BlendMode.SrcATop:
+                    return "SKBlendMode.SrcATop";
+                case SP.BlendMode.DstATop:
+                    return "SKBlendMode.DstATop";
+                case SP.BlendMode.Xor:
+                    return "SKBlendMode.Xor";
+                case SP.BlendMode.Plus:
+                    return "SKBlendMode.Plus";
+                case SP.BlendMode.Modulate:
+                    return "SKBlendMode.Modulate";
+                case SP.BlendMode.Screen:
+                    return "SKBlendMode.Screen";
+                case SP.BlendMode.Overlay:
+                    return "SKBlendMode.Overlay";
+                case SP.BlendMode.Darken:
+                    return "SKBlendMode.Darken";
+                case SP.BlendMode.Lighten:
+                    return "SKBlendMode.Lighten";
+                case SP.BlendMode.ColorDodge:
+                    return "SKBlendMode.ColorDodge";
+                case SP.BlendMode.ColorBurn:
+                    return "SKBlendMode.ColorBurn";
+                case SP.BlendMode.HardLight:
+                    return "SKBlendMode.HardLight";
+                case SP.BlendMode.SoftLight:
+                    return "SKBlendMode.SoftLight";
+                case SP.BlendMode.Difference:
+                    return "SKBlendMode.Difference";
+                case SP.BlendMode.Exclusion:
+                    return "SKBlendMode.Exclusion";
+                case SP.BlendMode.Multiply:
+                    return "SKBlendMode.Multiply";
+                case SP.BlendMode.Hue:
+                    return "SKBlendMode.Hue";
+                case SP.BlendMode.Saturation:
+                    return "SKBlendMode.Saturation";
+                case SP.BlendMode.Color:
+                    return "SKBlendMode.Color";
+                case SP.BlendMode.Luminosity:
+                    return "SKBlendMode.Luminosity";
+            }
+        }
+
+        public static string ToSKFilterQuality(this SP.FilterQuality filterQuality)
+        {
+            switch (filterQuality)
+            {
+                default:
+                case SP.FilterQuality.None:
+                    return "SKFilterQuality.None";
+                case SP.FilterQuality.Low:
+                    return "SKFilterQuality.Low";
+                case SP.FilterQuality.Medium:
+                    return "SKFilterQuality.Medium";
+                case SP.FilterQuality.High:
+                    return "SKFilterQuality.High";
+            }
+        }
 
         public static void ToSKPaint(this SP.Paint paint, int count, StringBuilder sb, string indent)
         {
             sb.AppendLine($"{indent}var skPaint{count} = new SKPaint();");
-
             sb.AppendLine($"{indent}skPaint{count}.Style = {paint.Style.ToSKPaintStyle()};");
             sb.AppendLine($"{indent}skPaint{count}.IsAntialias = {paint.IsAntialias.ToString(_ci).ToLower()};");
             sb.AppendLine($"{indent}skPaint{count}.StrokeWidth = {paint.StrokeWidth.ToString(_ci)}f;");
@@ -134,34 +233,17 @@ namespace Svg
             sb.AppendLine($"{indent}skPaint{count}.StrokeMiter = {paint.StrokeMiter.ToString(_ci)}f;");
             sb.AppendLine($"{indent}skPaint{count}.TextSize = {paint.TextSize.ToString(_ci)}f;");
             sb.AppendLine($"{indent}skPaint{count}.TextAlign = {paint.TextAlign.ToSKTextAlign()};");
-
-            // TODO:
-/*
-            var typeface = paint.Typeface?.ToSKTypeface();
-            var textEncoding = paint.TextEncoding.ToSKTextEncoding();
-            var color = paint.Color == null ? SKColor.Empty : ToSKColor(paint.Color.Value);
-            var shader = paint.Shader?.ToSKShader();
-            var colorFilter = paint.ColorFilter?.ToSKColorFilter();
-            var imageFilter = paint.ImageFilter?.ToSKImageFilter();
-            var pathEffect = paint.PathEffect?.ToSKPathEffect();
-            var blendMode = paint.BlendMode.ToSKBlendMode();
-            var filterQuality = paint.FilterQuality.ToSKFilterQuality();
-
-            return new SKPaint()
-            {
-                Typeface = typeface,
-                LcdRenderText = paint.LcdRenderText,
-                SubpixelText = paint.SubpixelText,
-                TextEncoding = textEncoding,
-                Color = color,
-                Shader = shader,
-                ColorFilter = colorFilter,
-                ImageFilter = imageFilter,
-                PathEffect = pathEffect,
-                BlendMode = blendMode,
-                FilterQuality = filterQuality
-            };
-*/
+            // TODO: Typeface = paint.Typeface?.ToSKTypeface();
+            sb.AppendLine($"{indent}skPaint{count}.LcdRenderText = {paint.LcdRenderText.ToString(_ci).ToLower()};");
+            sb.AppendLine($"{indent}skPaint{count}.SubpixelText = {paint.SubpixelText.ToString(_ci).ToLower()};");
+            sb.AppendLine($"{indent}skPaint{count}.TextEncoding = {paint.TextEncoding.ToSKTextEncoding()};");
+            sb.AppendLine($"{indent}skPaint{count}.Color = {(paint.Color == null ? "SKColor.Empty" : ToSKColor(paint.Color.Value))};");
+            // TODO: Shader = paint.Shader?.ToSKShader();
+            // TODO: ColorFilter = paint.ColorFilter?.ToSKColorFilter();
+            // TODO: ImageFilter = paint.ImageFilter?.ToSKImageFilter();
+            // TODO: PathEffect = paint.PathEffect?.ToSKPathEffect();
+            sb.AppendLine($"{indent}skPaint{count}.BlendMode = {paint.BlendMode.ToSKBlendMode()};");
+            sb.AppendLine($"{indent}skPaint{count}.FilterQuality = {paint.FilterQuality.ToSKFilterQuality()};");
         }
 
         public static string ToSKClipOperation(this SP.ClipOperation clipOperation)
