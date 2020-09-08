@@ -501,11 +501,12 @@ sb.AppendLine($"{indent}// TODO:");
     {
         public void Initialize(InitializationContext context)
         {
+            //Debugger.Launch();
         }
 
         public void Execute(SourceGeneratorContext context)
         {
-            //Debugger.Launch();
+
             var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
 
             foreach (var file in files)
