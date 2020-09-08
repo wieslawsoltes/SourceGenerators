@@ -164,7 +164,17 @@ namespace Svg
 */
         }
 
-        // TODO: ToSKClipOperation
+        public static string ToSKClipOperation(this SP.ClipOperation clipOperation)
+        {
+            switch (clipOperation)
+            {
+                default:
+                case SP.ClipOperation.Difference:
+                    return "SKClipOperation.Difference";
+                case SP.ClipOperation.Intersect:
+                    return "SKClipOperation.Intersect";
+            }
+        }
 
         public static string ToSKPathFillType(this SP.PathFillType pathFillType)
         {
