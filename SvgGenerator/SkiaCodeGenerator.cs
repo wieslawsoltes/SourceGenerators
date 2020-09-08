@@ -43,7 +43,7 @@ namespace Svg
                 {
                     case SP.ClipPathCanvasCommand clipPathCanvasCommand:
                         {
-sb.AppendLine($"{indent}// TODO:");
+sb.AppendLine($"{indent}// TODO: ClipPath");
                             //var path = clipPathCanvasCommand.ClipPath.ToSKPath();
                             //var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
                             //var antialias = clipPathCanvasCommand.Antialias;
@@ -52,11 +52,10 @@ sb.AppendLine($"{indent}// TODO:");
                         break;
                     case SP.ClipRectCanvasCommand clipRectCanvasCommand:
                         {
-sb.AppendLine($"{indent}// TODO:");
-                            //var rect = clipRectCanvasCommand.Rect.ToSKRect();
-                            //var operation = clipRectCanvasCommand.Operation.ToSKClipOperation();
-                            //var antialias = clipRectCanvasCommand.Antialias;
-                            //skCanvas.ClipRect(rect, operation, antialias);
+                            var rect = clipRectCanvasCommand.Rect.ToSKRect();
+                            var operation = clipRectCanvasCommand.Operation.ToSKClipOperation();
+                            var antialias = clipRectCanvasCommand.Antialias.ToString(_ci).ToLower();
+                            sb.AppendLine($"{indent}skCanvas.ClipRect({rect}, {operation}, {antialias});");
                         }
                         break;
                     case SP.SaveCanvasCommand _:
@@ -92,7 +91,7 @@ sb.AppendLine($"{indent}// TODO:");
                         {
                             if (drawImageCanvasCommand.Image != null)
                             {
-sb.AppendLine($"{indent}// TODO:");
+sb.AppendLine($"{indent}// TODO: DrawImage");
                                 //var image = drawImageCanvasCommand.Image.ToSKImage();
                                 //var source = drawImageCanvasCommand.Source.ToSKRect();
                                 //var dest = drawImageCanvasCommand.Dest.ToSKRect();
@@ -117,7 +116,7 @@ sb.AppendLine($"{indent}// TODO:");
                         {
                             if (drawPositionedTextCanvasCommand.TextBlob != null && drawPositionedTextCanvasCommand.TextBlob.Points != null && drawPositionedTextCanvasCommand.Paint != null)
                             {
-sb.AppendLine($"{indent}// TODO:");
+sb.AppendLine($"{indent}// TODO: DrawTextBlob");
                                 //var text = drawPositionedTextCanvasCommand.TextBlob.Text;
                                 //var points = drawPositionedTextCanvasCommand.TextBlob.Points.ToSKPoints();
                                 //var paint = drawPositionedTextCanvasCommand.Paint.ToSKPaint();
@@ -144,7 +143,7 @@ sb.AppendLine($"{indent}// TODO:");
                         {
                             if (drawTextOnPathCanvasCommand.Path != null && drawTextOnPathCanvasCommand.Paint != null)
                             {
-sb.AppendLine($"{indent}// TODO:");
+sb.AppendLine($"{indent}// TODO: DrawTextOnPath");
                                 //var text = drawTextOnPathCanvasCommand.Text;
                                 //var path = drawTextOnPathCanvasCommand.Path.ToSKPath();
                                 //var hOffset = drawTextOnPathCanvasCommand.HOffset;
