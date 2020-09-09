@@ -1,14 +1,10 @@
+#nullable enable
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.PooledObjects;
 using Microsoft.CodeAnalysis.Text;
-using SkiaSharp;
-using Svg;
 using Svg.Skia;
 
 namespace Svg
@@ -59,7 +55,7 @@ namespace Svg
             {
                 string namespaceName = "Svg";
                 string className = CreateClassName(file.Path);
-                var svg = file.GetText(context.CancellationToken).ToString();
+                var svg = file.GetText(context.CancellationToken)?.ToString();
                 SvgDocument.SkipGdiPlusCapabilityCheck = true;
                 SvgDocument.PointsPerInch = 96;
                 var svgDocument = SvgDocument.FromSvg<SvgDocument>(svg);
