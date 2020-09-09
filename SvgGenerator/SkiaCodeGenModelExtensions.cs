@@ -320,11 +320,13 @@ namespace Svg
 
         public static void ToSKShader(this SP.Shader? shader, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
+            var counterShader = counter.Shader;
+
             switch (shader)
             {
                 case SP.ColorShader colorShader:
                     {
-                        sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreateColor(");
                         sb.AppendLine($"{indent}    {colorShader.Color.ToSKColor()});");
                         return;
@@ -333,13 +335,13 @@ namespace Svg
                     {
                         if (linearGradientShader.Colors == null || linearGradientShader.ColorPos == null)
                         {
-                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counter.Shader} = default(SKShader);");
+                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counterShader} = default(SKShader);");
                             return;
                         }
 
                         if (linearGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
@@ -351,7 +353,7 @@ namespace Svg
                         }
                         else
                         {
-                            sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
@@ -365,13 +367,13 @@ namespace Svg
                     {
                         if (twoPointConicalGradientShader.Colors == null || twoPointConicalGradientShader.ColorPos == null)
                         {
-                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counter.Shader} = default(SKShader);");
+                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counterShader} = default(SKShader);");
                             return;
                         }
 
                         if (twoPointConicalGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -385,7 +387,7 @@ namespace Svg
                         }
                         else
                         {
-                            sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -401,15 +403,14 @@ namespace Svg
                     {
                         if (pictureShader.Src == null)
                         {
-                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counter.Shader} = default(SKShader);");
+                            sb.AppendLine($"{indent}var {counter.ShaderVarName}{counterShader} = default(SKShader);");
                             return;
                         }
 
                         var counterPicture = ++counter.Picture;
                         pictureShader.Src?.ToSKPicture(counter, sb, indent);
-                        sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
 
-                        sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePicture(");
                         sb.AppendLine($"{indent}    {counter.PictureVarName}{counterPicture},");
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
@@ -420,7 +421,7 @@ namespace Svg
                     }
                 case SP.PerlinNoiseFractalNoiseShader perlinNoiseFractalNoiseShader:
                     {
-                        sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseFractalNoise(");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyY.ToString(_ci)}f,");
@@ -431,7 +432,7 @@ namespace Svg
                     }
                 case SP.PerlinNoiseTurbulenceShader perlinNoiseTurbulenceShader:
                     {
-                        sb.Append($"{indent}var {counter.ShaderVarName}{counter.Shader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseTurbulence(");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyY.ToString(_ci)}f,");
@@ -442,7 +443,7 @@ namespace Svg
                     }
                 default:
                     {
-                        sb.AppendLine($"{indent}var {counter.ShaderVarName}{counter.Shader} = default(SKShader);");
+                        sb.AppendLine($"{indent}var {counter.ShaderVarName}{counterShader} = default(SKShader);");
                         return;
                     }
             }
@@ -564,9 +565,9 @@ namespace Svg
 
             if (paint.Shader != null)
             {
-                counter.Shader++;
+                var counterShader = ++counter.Shader;
                 paint.Shader.ToSKShader(counter, sb, indent);
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Shader = {counter.ShaderVarName}{counter.Shader};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Shader = {counter.ShaderVarName}{counterShader};");
             }
 
             if (paint.ColorFilter != null)

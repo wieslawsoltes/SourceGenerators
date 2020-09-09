@@ -29,9 +29,12 @@ namespace Test
             //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\__AJ_Digital_Camera.svg", "Svg", "AJ_Digital_Camera");
             //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\__tiger.svg", "Svg", "tiger");
             //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\e-ellipse-001.svg", "Svg", "e_ellipse_001");
-            Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/__AJ_Digital_Camera.svg", "Svg", "AJ_Digital_Camera");
-            Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/__tiger.svg", "Svg", "tiger");
-            Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/e-ellipse-001.svg", "Svg", "e_ellipse_001");
+            //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\pservers-pattern-01-b.svg", "Svg", "pservers_pattern_01_b");
+
+            //Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/__AJ_Digital_Camera.svg", "Svg", "AJ_Digital_Camera");
+            //Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/__tiger.svg", "Svg", "tiger");
+            //Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/e-ellipse-001.svg", "Svg", "e_ellipse_001");
+            //Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/pservers-pattern-01-b.svg", "Svg", "pservers_pattern_01_b");
 
             var ellipse = new e_ellipse_001();
             var rect = new e_rect_001();
