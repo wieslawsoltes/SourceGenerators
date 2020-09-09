@@ -1,8 +1,7 @@
-﻿using System.Globalization;
+﻿#nullable enable
+using System.Globalization;
 using System.Text;
 using SP = Svg.Picture;
-
-#nullable enable
 
 namespace Svg
 {
