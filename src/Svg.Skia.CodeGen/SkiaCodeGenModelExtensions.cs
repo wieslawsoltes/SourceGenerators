@@ -455,7 +455,21 @@ namespace Svg.Skia
             return $"new SKImageFilter.CropRect({cropRect.Rect.ToSKRect()})";
         }
 
-        // TODO: ToSKColorChannel
+        public static string ToSKColorChannel(this SP.ColorChannel colorChannel)
+        {
+            switch (colorChannel)
+            {
+                default:
+                case SP.ColorChannel.R:
+                    return "SKColorChannel.R";
+                case SP.ColorChannel.G:
+                    return "SKColorChannel.G";
+                case SP.ColorChannel.B:
+                    return "SKColorChannel.B";
+                case SP.ColorChannel.A:
+                    return "SKColorChannel.A";
+            }
+        }
 
         // TODO: ToSKImageFilter
 
