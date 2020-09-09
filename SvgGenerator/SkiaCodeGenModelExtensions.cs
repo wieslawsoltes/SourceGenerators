@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 using SP = Svg.Picture;
-
-#nullable enable
 
 namespace Svg
 {
@@ -660,7 +659,7 @@ namespace Svg
                             var x = moveToPathCommand.X;
                             var y = moveToPathCommand.Y;
                             sb.AppendLine($"{indent}skPath{counter.Path}.MoveTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
-                            
+
                         }
                         break;
                     case SP.LineToPathCommand lineToPathCommand:
