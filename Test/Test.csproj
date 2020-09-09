@@ -15,6 +15,7 @@
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.8.0-2.final" PrivateAssets="all" />
     <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" />
     <PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.2-preview.33" />
   </ItemGroup>
 
   <ItemGroup>
