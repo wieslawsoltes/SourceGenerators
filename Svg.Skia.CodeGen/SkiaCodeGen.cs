@@ -2,7 +2,7 @@
 using System.Text;
 using SP = Svg.Picture;
 
-namespace Svg
+namespace Svg.Skia
 {
     public class SkiaCodeGen
     {

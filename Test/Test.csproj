@@ -19,10 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<ProjectReference Include="..\..\Svg.Skia\src\Svg.Custom\Svg.Custom.csproj" />
-    <ProjectReference Include="..\..\Svg.Skia\src\Svg.Picture\Svg.Picture.csproj" />
-    <ProjectReference Include="..\..\Svg.Skia\src\Svg.Skia\Svg.Skia.csproj" />-->
-    <ProjectReference Include="..\SvgGenerator\SvgGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
+    <ProjectReference Include="..\SvgGenerator\Svg.Skia.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="True" />
     <!--<ProjectReference Include="..\SvgGenerator\SvgGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />-->
   </ItemGroup>
 

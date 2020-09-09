@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using SP = Svg.Picture;
 
-namespace Svg
+namespace Svg.Skia
 {
     internal class SkiaCodeGenObjectCounter
     {
