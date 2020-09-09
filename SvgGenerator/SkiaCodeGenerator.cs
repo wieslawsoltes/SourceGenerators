@@ -7,8 +7,6 @@ namespace Svg
 {
     public class SkiaCodeGen
     {
-        private static CultureInfo _ci = CultureInfo.InvariantCulture;
-
         public static string Generate(SP.Picture picture, string namespaceName, string className)
         {
             var counter = new SkiaCodeGenObjectCounter();
