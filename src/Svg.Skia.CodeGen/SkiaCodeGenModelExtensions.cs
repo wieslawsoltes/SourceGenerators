@@ -450,7 +450,10 @@ namespace Svg.Skia
 
         // TODO: ToSKColorFilter
 
-        // TODO: ToCropRect
+        public static string ToCropRect(this SP.CropRect cropRect)
+        {
+            return $"new SKImageFilter.CropRect({cropRect.Rect.ToSKRect()})";
+        }
 
         // TODO: ToSKColorChannel
 
