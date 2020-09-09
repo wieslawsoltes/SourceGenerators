@@ -449,10 +449,15 @@ namespace Svg
         }
 
         // TODO: ToSKColorFilter
+
         // TODO: ToCropRect
+
         // TODO: ToSKColorChannel
+
         // TODO: ToSKImageFilter
+
         // TODO: ToSKImageFilters
+
         // TODO: ToSKPathEffect
 
         public static string ToSKBlendMode(this SP.BlendMode blendMode)
