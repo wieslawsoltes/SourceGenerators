@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.SourceGenerator", "SvgGenerator\Svg.Skia.SourceGenerator.csproj", "{0CE0A92B-258C-43FD-BF45-71EF008F6CBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.SourceGenerator", "src\Svg.Skia.SourceGenerator\Svg.Skia.SourceGenerator.csproj", "{0CE0A92B-258C-43FD-BF45-71EF008F6CBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{3872E3FF-CF69-46F7-A908-935398382709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "samples\Test\Test.csproj", "{3872E3FF-CF69-46F7-A908-935398382709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Svg.Skia.CodeGen", "Svg.Skia.CodeGen\Svg.Skia.CodeGen.csproj", "{DA562348-F0AF-4A32-BFDB-4A66404837BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.CodeGen", "src\Svg.Skia.CodeGen\Svg.Skia.CodeGen.csproj", "{DA562348-F0AF-4A32-BFDB-4A66404837BA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2ED0534C-24EA-4BB8-A49E-D9A0EE2A33D6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{8A039BD7-4607-4BF2-92AD-0F5D279CEA39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "svgc", "src\svgc\svgc.csproj", "{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{DA562348-F0AF-4A32-BFDB-4A66404837BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA562348-F0AF-4A32-BFDB-4A66404837BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA562348-F0AF-4A32-BFDB-4A66404837BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{0CE0A92B-258C-43FD-BF45-71EF008F6CBE} = {2ED0534C-24EA-4BB8-A49E-D9A0EE2A33D6}
 		{3872E3FF-CF69-46F7-A908-935398382709} = {8A039BD7-4607-4BF2-92AD-0F5D279CEA39}
 		{DA562348-F0AF-4A32-BFDB-4A66404837BA} = {2ED0534C-24EA-4BB8-A49E-D9A0EE2A33D6}
+		{B4E41DF1-CCB0-4F8B-8B85-2BF968BBA2C8} = {2ED0534C-24EA-4BB8-A49E-D9A0EE2A33D6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8AB95B84-BAAA-481B-832F-5929FA2B752F}
