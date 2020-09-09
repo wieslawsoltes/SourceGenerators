@@ -4,7 +4,7 @@ using SP = Svg.Picture;
 
 namespace Svg
 {
-    public class SkiaCodeGenerator
+    public class SkiaCodeGen
     {
         private static CultureInfo _ci = CultureInfo.InvariantCulture;
 

@@ -5,7 +5,7 @@ using SP = Svg.Picture;
 
 namespace Svg
 {
-    internal static class ModelExtensions
+    internal static class SkiaCodeGenModelExtensions
     {
         private static CultureInfo _ci = CultureInfo.InvariantCulture;
 

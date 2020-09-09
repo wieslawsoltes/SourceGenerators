@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -61,7 +61,7 @@ namespace Svg
                     var picture = SKSvg.ToModel(svgDocument);
                     if (picture != null && picture.Commands != null)
                     {
-                        var code = SkiaCodeGenerator.Generate(picture, className);
+                        var code = SkiaCodeGen.Generate(picture, className);
                         var sourceText = SourceText.From(code, Encoding.UTF8);
                         context.AddSource($"{className}.svg.cs", sourceText);
                     }
