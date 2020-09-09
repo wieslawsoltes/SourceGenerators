@@ -7,12 +7,8 @@ namespace Test
 {
     class Program
     {
-        static void Debug()
+        static void Debug(string path, string className)
         {
-            //var path = @"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\__tiger.svg";
-            var path = "/home/ubuntu/projects/SourceGenerators/Test/Svg/__tiger.svg";
-            //var path = @"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\e-ellipse-001.svg";
-            //var path = "/home/ubuntu/projects/SourceGenerators/Test/Svg/e-ellipse-001.svg";
             var svg = System.IO.File.ReadAllText(path);
             SvgDocument.SkipGdiPlusCapabilityCheck = true;
             SvgDocument.PointsPerInch = 96;
@@ -22,7 +18,7 @@ namespace Test
                 var picture = SKSvg.ToModel(svgDocument);
                 if (picture != null && picture.Commands != null)
                 {
-                    var text = SkiaCodeGen.Generate(picture, "e_ellipse_001");
+                    var text = SkiaCodeGen.Generate(picture, className);
                     Console.WriteLine(text);
                 }
             }
@@ -30,7 +26,11 @@ namespace Test
 
         static void Main(string[] args)
         {
-            Debug();
+            //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\__tiger.svg", "tiger");
+            //Debug(@"c:\DOWNLOADS\GitHub\SourceGenerators\Test\Svg\e-ellipse-001.svg", "e_ellipse_001");
+            Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/__tiger.svg", "tiger");
+            Debug("/home/ubuntu/projects/SourceGenerators/Test/Svg/e-ellipse-001.svg", "e_ellipse_001");
+
             var ellipse = new e_ellipse_001();
             var rect = new e_rect_001();
             Console.WriteLine($"{ellipse.GetType()}");
