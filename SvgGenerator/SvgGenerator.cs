@@ -57,6 +57,7 @@ namespace Svg
 
             foreach (var file in files)
             {
+                string namespaceName = "Svg";
                 string className = CreateClassName(file.Path);
                 var svg = file.GetText(context.CancellationToken).ToString();
                 SvgDocument.SkipGdiPlusCapabilityCheck = true;
@@ -67,7 +68,7 @@ namespace Svg
                     var picture = SKSvg.ToModel(svgDocument);
                     if (picture != null && picture.Commands != null)
                     {
-                        var code = SkiaCodeGen.Generate(picture, className);
+                        var code = SkiaCodeGen.Generate(picture, namespaceName, className);
                         var sourceText = SourceText.From(code, Encoding.UTF8);
                         context.AddSource($"{className}.svg.cs", sourceText);
                     }
