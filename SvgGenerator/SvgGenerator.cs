@@ -43,15 +43,21 @@ namespace Svg
             }
         }
 
+        private string CreateClassName(string path)
+        {
+            string name = System.IO.Path.GetFileNameWithoutExtension(path);
+            string className = name.Replace("-", "_");
+            return className;
+        }
+
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void ExecuteInternal(SourceGeneratorContext context)
         {
-           var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
+            var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
 
             foreach (var file in files)
             {
-                string name = System.IO.Path.GetFileNameWithoutExtension(file.Path);
-                string className = name.Replace("-", "_");
+                string className = CreateClassName(file.Path);
                 var svg = file.GetText(context.CancellationToken).ToString();
                 SvgDocument.SkipGdiPlusCapabilityCheck = true;
                 SvgDocument.PointsPerInch = 96;
