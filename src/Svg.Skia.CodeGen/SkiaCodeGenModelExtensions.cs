@@ -581,20 +581,20 @@ namespace Svg.Skia
 #endif
 
             // SKPaint defaults:
-		    // Style=Fill
-		    // IsAntialias=false
-		    // StrokeWidth=0
-		    // StrokeCap=Butt
-		    // StrokeJoin=Miter
-		    // StrokeMiter=4
-		    // TextSize=12
-		    // TextAlign=Left
-		    // LcdRenderText=false
-		    // SubpixelText=false
-		    // TextEncoding=Utf8
-		    // Color=#ff000000
-		    // BlendMode=SrcOver
-		    // FilterQuality=None
+            // Style=Fill
+            // IsAntialias=false
+            // StrokeWidth=0
+            // StrokeCap=Butt
+            // StrokeJoin=Miter
+            // StrokeMiter=4
+            // TextSize=12
+            // TextAlign=Left
+            // LcdRenderText=false
+            // SubpixelText=false
+            // TextEncoding=Utf8
+            // Color=#ff000000
+            // BlendMode=SrcOver
+            // FilterQuality=None
 
             if (paint.Style != SP.PaintStyle.Fill)
             {
