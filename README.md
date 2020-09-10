@@ -9,6 +9,10 @@ SVGC compiles SVG drawing markup to C# using SkiaSharp as rendering engine. SGC 
 ### Usage
 
 ```
+dotnet run --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
+```
+
+```
 svgc -i InputFile.svg -o OutputFile.cs -c ClassName -n NamespaceName
 ```
 
@@ -24,4 +28,3 @@ dotnet run -- -i ..\..\samples\Test\Svg\e-ellipse-001.svg  -o ellipse.cs -c elli
 * https://github.com/dotnet/roslyn-sdk/tree/master/samples/CSharp/SourceGenerators
 * https://github.com/dotnet/roslyn/blob/master/src/Test/Utilities/Portable/SourceGeneration/TestGenerators.cs
 * https://devblogs.microsoft.com/dotnet/introducing-c-source-generators/
-
