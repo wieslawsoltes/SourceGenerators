@@ -436,6 +436,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {pictureShader.Tile.ToSKRect()});");
 #if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+                        sb.AppendLine($"{indent}disposables.Add({counter.PictureVarName}{counterPicture});");
 #endif
                         return;
                     }
