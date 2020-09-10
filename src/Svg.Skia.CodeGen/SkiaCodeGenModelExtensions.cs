@@ -325,7 +325,7 @@ namespace Svg.Skia
             {
                 case SP.ColorShader colorShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreateColor(");
                         sb.AppendLine($"{indent}    {colorShader.Color.ToSKColor()});");
                         return;
@@ -340,7 +340,7 @@ namespace Svg.Skia
 
                         if (linearGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
@@ -352,7 +352,7 @@ namespace Svg.Skia
                         }
                         else
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
@@ -372,7 +372,7 @@ namespace Svg.Skia
 
                         if (twoPointConicalGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -386,7 +386,7 @@ namespace Svg.Skia
                         }
                         else
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -409,7 +409,7 @@ namespace Svg.Skia
                         var counterPicture = ++counter.Picture;
                         pictureShader.Src?.ToSKPicture(counter, sb, indent);
 
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePicture(");
                         sb.AppendLine($"{indent}    {counter.PictureVarName}{counterPicture},");
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
@@ -420,7 +420,7 @@ namespace Svg.Skia
                     }
                 case SP.PerlinNoiseFractalNoiseShader perlinNoiseFractalNoiseShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseFractalNoise(");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyY.ToString(_ci)}f,");
@@ -431,7 +431,7 @@ namespace Svg.Skia
                     }
                 case SP.PerlinNoiseTurbulenceShader perlinNoiseTurbulenceShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseTurbulence(");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyY.ToString(_ci)}f,");
@@ -563,7 +563,7 @@ namespace Svg.Skia
         {
             var counterPaint = counter.Paint;
 
-            sb.AppendLine($"{indent}using var {counter.PaintVarName}{counterPaint} = new SKPaint();");
+            sb.AppendLine($"{indent}var {counter.PaintVarName}{counterPaint} = new SKPaint();");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Style = {paint.Style.ToSKPaintStyle()};");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.IsAntialias = {paint.IsAntialias.ToString(_ci).ToLower()};");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeWidth = {paint.StrokeWidth.ToString(_ci)}f;");
@@ -665,7 +665,7 @@ namespace Svg.Skia
 
         public static void ToSKPath(this SP.Path path, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
-            sb.AppendLine($"{indent}using var {counter.PathVarName}{counter.Path} = new SKPath() {{ FillType = {path.FillType.ToSKPathFillType()} }};");
+            sb.AppendLine($"{indent}var {counter.PathVarName}{counter.Path} = new SKPath() {{ FillType = {path.FillType.ToSKPathFillType()} }};");
 
             if (path.Commands == null)
             {
