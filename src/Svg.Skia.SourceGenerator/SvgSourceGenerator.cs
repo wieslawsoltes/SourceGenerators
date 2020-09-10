@@ -42,7 +42,7 @@ namespace Svg.Skia
         {
             string name = System.IO.Path.GetFileNameWithoutExtension(path);
             string className = name.Replace("-", "_");
-            return className;
+            return $"Svg_{className}";
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
