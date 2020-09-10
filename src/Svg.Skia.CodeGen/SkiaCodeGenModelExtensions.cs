@@ -1,4 +1,5 @@
-﻿#define USE_PAINT_RESET
+﻿#define USE_DISPOSABLE
+#define USE_PAINT_RESET
 #define USE_PATH_RESET
 #nullable enable
 using System.Collections.Generic;
@@ -330,7 +331,9 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreateColor(");
                         sb.AppendLine($"{indent}    {colorShader.Color.ToSKColor()});");
+#if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                         return;
                     }
                 case SP.LinearGradientShader linearGradientShader:
@@ -351,7 +354,9 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.LocalMatrix.Value.ToSKMatrix()});");
+#if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                             return;
                         }
                         else
@@ -363,7 +368,9 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()});");
+#if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                             return;
                         }
                     }
@@ -387,7 +394,9 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.LocalMatrix.Value.ToSKMatrix()});");
+#if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                             return;
                         }
                         else
@@ -401,7 +410,9 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()});");
+#if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                             return;
                         }
                     }
@@ -423,7 +434,9 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
                         sb.AppendLine($"{indent}    {pictureShader.LocalMatrix.ToSKMatrix()},");
                         sb.AppendLine($"{indent}    {pictureShader.Tile.ToSKRect()});");
+#if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                         return;
                     }
                 case SP.PerlinNoiseFractalNoiseShader perlinNoiseFractalNoiseShader:
@@ -435,7 +448,9 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.TileSize.ToSKPointI()});");
+#if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                         return;
                     }
                 case SP.PerlinNoiseTurbulenceShader perlinNoiseTurbulenceShader:
@@ -447,7 +462,9 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.TileSize.ToSKPointI()});");
+#if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
+#endif
                         return;
                     }
                 default:
@@ -698,7 +715,9 @@ namespace Svg.Skia
             }
 
 #if !USE_PAINT_RESET
+#if USE_DISPOSABLE
             sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName}{counterPaint});");
+#endif
 #endif
         }
 
@@ -774,7 +793,9 @@ namespace Svg.Skia
             if (path.Commands == null)
             {
 #if !USE_PATH_RESET
+#if USE_DISPOSABLE
                 sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
+#endif
 #endif
                 return;
             }
@@ -878,7 +899,9 @@ namespace Svg.Skia
             }
 
 #if !USE_PATH_RESET
+#if USE_DISPOSABLE
             sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
+#endif
 #endif
         }
 
