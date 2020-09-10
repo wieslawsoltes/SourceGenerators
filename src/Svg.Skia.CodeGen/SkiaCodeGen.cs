@@ -1,4 +1,5 @@
 ﻿//#define USE_DIAGNOSTICTS
+#define USE_DISPOSABLE
 #define USE_PAINT_RESET
 #define USE_PATH_RESET
 #nullable enable
@@ -15,8 +16,10 @@ namespace Svg.Skia
 
             var sb = new StringBuilder();
 
+#if USE_DISPOSABLE
             sb.AppendLine($"using System;");
             sb.AppendLine($"using System.Collections.Generic;");
+#endif
 #if USE_DIAGNOSTICTS
             sb.AppendLine($"using System.Diagnostics;");
 #endif
@@ -47,25 +50,33 @@ namespace Svg.Skia
 
             var indent = "            ";
 
+#if USE_DISPOSABLE
             sb.AppendLine($"{indent}var disposables = new List<IDisposable>();");
+#endif
 
 #if USE_PAINT_RESET
             sb.AppendLine($"{indent}var {counter.PaintVarName} = new SKPaint();");
-            sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName});");
+#if USE_DISPOSABLE
+		     sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName});");  
+#endif
 #endif
 
 #if USE_PATH_RESET
             sb.AppendLine($"{indent}var {counter.PathVarName} = new SKPath();");
-            sb.AppendLine($"{indent}disposables.Add({counter.PathVarName});");
+#if USE_DISPOSABLE
+		           sb.AppendLine($"{indent}disposables.Add({counter.PathVarName});");  
+#endif
 #endif
 
             var counterPicture = ++counter.Picture;
             picture.ToSKPicture(counter, sb, indent);
 
+#if USE_DISPOSABLE
             sb.AppendLine($"{indent}foreach (var disposable in disposables)");
             sb.AppendLine($"{indent}{{");
             sb.AppendLine($"{indent}    disposable?.Dispose();");
             sb.AppendLine($"{indent}}}");
+#endif
 
             sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
 
