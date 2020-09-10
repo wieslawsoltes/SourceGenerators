@@ -12,6 +12,8 @@ namespace Svg.Skia
 
             var sb = new StringBuilder();
 
+            sb.AppendLine($"using System;");
+            sb.AppendLine($"using System.Collections.Generic;");
             sb.AppendLine($"using SkiaSharp;");
             sb.AppendLine($"");
             sb.AppendLine($"namespace {namespaceName}");
@@ -28,9 +30,19 @@ namespace Svg.Skia
             sb.AppendLine($"        private static SKPicture Record()");
             sb.AppendLine($"        {{");
 
+
             var indent = "            ";
+
+            sb.AppendLine($"{indent}var disposables = new List<IDisposable>();");
+
             var counterPicture = ++counter.Picture;
             picture.ToSKPicture(counter, sb, indent);
+
+            sb.AppendLine($"{indent}foreach (var disposable in disposables)");
+            sb.AppendLine($"{indent}{{");
+            sb.AppendLine($"{indent}    disposable?.Dispose();");
+            sb.AppendLine($"{indent}}}");
+
             sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
 
             sb.AppendLine($"        }}");
