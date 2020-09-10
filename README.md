@@ -18,7 +18,8 @@ svgc -i InputFile.svg -o OutputFile.cs -c ClassName -n NamespaceName
 
 ```
 cd src\svgc
-dotnet run -- -i ..\..\samples\Test\Svg\e-ellipse-001.svg  -o ellipse.cs -c ellipse -n Sample
+dotnet run -- -i ..\..\samples\Svg.Skia.SourceGenerator.Sample\Svg\e-ellipse-001.svg  -o ellipse.cs -c ellipse -n Sample
+dotnet run -- -i ..\..\samples\Svg.Skia.SourceGenerator.Sample\Svg\__tiger.svg  -o tiger.cs -c tiger -n Sample
 ```
 
 ### Links
