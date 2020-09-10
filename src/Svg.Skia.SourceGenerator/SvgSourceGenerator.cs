@@ -48,7 +48,7 @@ namespace Svg.Skia
         [MethodImpl(MethodImplOptions.NoInlining)]
         private void ExecuteInternal(SourceGeneratorContext context)
         {
-            var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg"));
+            var files = context.AdditionalFiles.Where(at => at.Path.EndsWith(".svg", StringComparison.InvariantCultureIgnoreCase));
 
             foreach (var file in files)
             {
