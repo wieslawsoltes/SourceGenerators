@@ -13,7 +13,7 @@ namespace Svg.Skia
     {
         public void Initialize(InitializationContext context)
         {
-            //Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch();
         }
 
         public void Execute(SourceGeneratorContext context)
