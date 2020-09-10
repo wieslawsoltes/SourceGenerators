@@ -325,9 +325,10 @@ namespace Svg.Skia
             {
                 case SP.ColorShader colorShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreateColor(");
                         sb.AppendLine($"{indent}    {colorShader.Color.ToSKColor()});");
+                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                         return;
                     }
                 case SP.LinearGradientShader linearGradientShader:
@@ -340,7 +341,7 @@ namespace Svg.Skia
 
                         if (linearGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
@@ -348,17 +349,19 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.LocalMatrix.Value.ToSKMatrix()});");
+                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                             return;
                         }
                         else
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateLinearGradient(");
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()});");
+                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                             return;
                         }
                     }
@@ -372,7 +375,7 @@ namespace Svg.Skia
 
                         if (twoPointConicalGradientShader.LocalMatrix != null)
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -382,11 +385,12 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.LocalMatrix.Value.ToSKMatrix()});");
+                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                             return;
                         }
                         else
                         {
-                            sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                            sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
@@ -395,6 +399,7 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()});");
+                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                             return;
                         }
                     }
@@ -409,35 +414,38 @@ namespace Svg.Skia
                         var counterPicture = ++counter.Picture;
                         pictureShader.Src?.ToSKPicture(counter, sb, indent);
 
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePicture(");
                         sb.AppendLine($"{indent}    {counter.PictureVarName}{counterPicture},");
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
                         sb.AppendLine($"{indent}    {pictureShader.LocalMatrix.ToSKMatrix()},");
                         sb.AppendLine($"{indent}    {pictureShader.Tile.ToSKRect()});");
+                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                         return;
                     }
                 case SP.PerlinNoiseFractalNoiseShader perlinNoiseFractalNoiseShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseFractalNoise(");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.TileSize.ToSKPointI()});");
+                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                         return;
                     }
                 case SP.PerlinNoiseTurbulenceShader perlinNoiseTurbulenceShader:
                     {
-                        sb.Append($"{indent}using var {counter.ShaderVarName}{counterShader} = ");
+                        sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseTurbulence(");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.TileSize.ToSKPointI()});");
+                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
                         return;
                     }
                 default:
@@ -563,7 +571,8 @@ namespace Svg.Skia
         {
             var counterPaint = counter.Paint;
 
-            sb.AppendLine($"{indent}using var {counter.PaintVarName}{counterPaint} = new SKPaint();");
+            sb.AppendLine($"{indent}var {counter.PaintVarName}{counterPaint} = new SKPaint();");
+
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Style = {paint.Style.ToSKPaintStyle()};");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.IsAntialias = {paint.IsAntialias.ToString(_ci).ToLower()};");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeWidth = {paint.StrokeWidth.ToString(_ci)}f;");
@@ -611,6 +620,8 @@ namespace Svg.Skia
 
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.BlendMode = {paint.BlendMode.ToSKBlendMode()};");
             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.FilterQuality = {paint.FilterQuality.ToSKFilterQuality()};");
+
+            sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName}{counterPaint});");
         }
 
         public static string ToSKClipOperation(this SP.ClipOperation clipOperation)
@@ -665,10 +676,13 @@ namespace Svg.Skia
 
         public static void ToSKPath(this SP.Path path, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
-            sb.AppendLine($"{indent}using var {counter.PathVarName}{counter.Path} = new SKPath() {{ FillType = {path.FillType.ToSKPathFillType()} }};");
+            var counterPath = counter.Path;
+
+            sb.AppendLine($"{indent}var {counter.PathVarName}{counterPath} = new SKPath() {{ FillType = {path.FillType.ToSKPathFillType()} }};");
 
             if (path.Commands == null)
             {
+                sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
                 return;
             }
 
@@ -680,7 +694,7 @@ namespace Svg.Skia
                         {
                             var x = moveToPathCommand.X;
                             var y = moveToPathCommand.Y;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.MoveTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.MoveTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
 
                         }
                         break;
@@ -688,7 +702,7 @@ namespace Svg.Skia
                         {
                             var x = lineToPathCommand.X;
                             var y = lineToPathCommand.Y;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.LineTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.LineTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
                         }
                         break;
                     case SP.ArcToPathCommand arcToPathCommand:
@@ -700,7 +714,7 @@ namespace Svg.Skia
                             var sweep = arcToPathCommand.Sweep.ToSKPathDirection();
                             var x = arcToPathCommand.X;
                             var y = arcToPathCommand.Y;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.ArcTo({rx.ToString(_ci)}f, {ry.ToString(_ci)}f, {xAxisRotate.ToString(_ci)}f, {largeArc}, {sweep}, {x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.ArcTo({rx.ToString(_ci)}f, {ry.ToString(_ci)}f, {xAxisRotate.ToString(_ci)}f, {largeArc}, {sweep}, {x.ToString(_ci)}f, {y.ToString(_ci)}f);");
                         }
                         break;
                     case SP.QuadToPathCommand quadToPathCommand:
@@ -709,7 +723,7 @@ namespace Svg.Skia
                             var y0 = quadToPathCommand.Y0;
                             var x1 = quadToPathCommand.X1;
                             var y1 = quadToPathCommand.Y1;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.QuadTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.QuadTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f);");
                         }
                         break;
                     case SP.CubicToPathCommand cubicToPathCommand:
@@ -720,18 +734,18 @@ namespace Svg.Skia
                             var y1 = cubicToPathCommand.Y1;
                             var x2 = cubicToPathCommand.X2;
                             var y2 = cubicToPathCommand.Y2;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.CubicTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f, {x2.ToString(_ci)}f, {y2.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.CubicTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f, {x2.ToString(_ci)}f, {y2.ToString(_ci)}f);");
                         }
                         break;
                     case SP.ClosePathCommand _:
                         {
-                            sb.AppendLine($"{indent}skPath{counter.Path}.Close();");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.Close();");
                         }
                         break;
                     case SP.AddRectPathCommand addRectPathCommand:
                         {
                             var rect = addRectPathCommand.Rect.ToSKRect();
-                            sb.AppendLine($"{indent}skPath{counter.Path}.AddRect({rect});");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddRect({rect});");
                         }
                         break;
                     case SP.AddRoundRectPathCommand addRoundRectPathCommand:
@@ -739,13 +753,13 @@ namespace Svg.Skia
                             var rect = addRoundRectPathCommand.Rect.ToSKRect();
                             var rx = addRoundRectPathCommand.Rx;
                             var ry = addRoundRectPathCommand.Ry;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.AddRoundRect({rect}, {rx.ToString(_ci)}f, {ry.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddRoundRect({rect}, {rx.ToString(_ci)}f, {ry.ToString(_ci)}f);");
                         }
                         break;
                     case SP.AddOvalPathCommand addOvalPathCommand:
                         {
                             var rect = addOvalPathCommand.Rect.ToSKRect();
-                            sb.AppendLine($"{indent}skPath{counter.Path}.AddOval({rect});");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddOval({rect});");
                         }
                         break;
                     case SP.AddCirclePathCommand addCirclePathCommand:
@@ -753,7 +767,7 @@ namespace Svg.Skia
                             var x = addCirclePathCommand.X;
                             var y = addCirclePathCommand.Y;
                             var radius = addCirclePathCommand.Radius;
-                            sb.AppendLine($"{indent}skPath{counter.Path}.AddCircle({x.ToString(_ci)}f, {y.ToString(_ci)}f, {radius.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddCircle({x.ToString(_ci)}f, {y.ToString(_ci)}f, {radius.ToString(_ci)}f);");
                         }
                         break;
                     case SP.AddPolyPathCommand addPolyPathCommand:
@@ -762,7 +776,7 @@ namespace Svg.Skia
                             {
                                 var points = addPolyPathCommand.Points.ToSKPoints();
                                 var close = addPolyPathCommand.Close.ToString(_ci).ToLower();
-                                sb.AppendLine($"{indent}skPath{counter.Path}.AddPoly(points, {close});");
+                                sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddPoly(points, {close});");
                             }
                         }
                         break;
@@ -770,6 +784,8 @@ namespace Svg.Skia
                         break;
                 }
             }
+
+            sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
         }
 
         // TODO: ToSKPath
