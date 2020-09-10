@@ -1,6 +1,6 @@
-﻿#define USE_DISPOSABLE
-#define USE_PAINT_RESET
-#define USE_PATH_RESET
+﻿//#define USE_DISPOSABLE
+//#define USE_PAINT_RESET
+//#define USE_PATH_RESET
 #nullable enable
 using System.Collections.Generic;
 using System.Globalization;
