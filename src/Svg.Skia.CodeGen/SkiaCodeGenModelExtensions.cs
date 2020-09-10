@@ -694,7 +694,7 @@ namespace Svg.Skia
 
             if (paint.FilterQuality != SP.FilterQuality.None)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.FilterQuality = {paint.FilterQuality.ToSKFilterQuality()};"); 
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.FilterQuality = {paint.FilterQuality.ToSKFilterQuality()};");
             }
 
 #if !USE_PAINT_RESET
