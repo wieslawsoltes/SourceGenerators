@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.SourceGenerator", "src\Svg.Skia.SourceGenerator\Svg.Skia.SourceGenerator.csproj", "{0CE0A92B-258C-43FD-BF45-71EF008F6CBE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "samples\Test\Test.csproj", "{3872E3FF-CF69-46F7-A908-935398382709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.SourceGenerator.Sample", "samples\Svg.Skia.SourceGenerator.Sample\Svg.Skia.SourceGenerator.Sample.csproj", "{3872E3FF-CF69-46F7-A908-935398382709}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Svg.Skia.CodeGen", "src\Svg.Skia.CodeGen\Svg.Skia.CodeGen.csproj", "{DA562348-F0AF-4A32-BFDB-4A66404837BA}"
 EndProject

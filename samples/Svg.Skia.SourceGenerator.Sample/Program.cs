@@ -1,7 +1,7 @@
 ﻿using System;
 using Svg;
 
-namespace Test
+namespace Svg.Skia.SourceGenerator.Sample
 {
     class Program
     {
@@ -9,8 +9,8 @@ namespace Test
         {
             var ellipse = new e_ellipse_001();
             var rect = new e_rect_001();
-            Console.WriteLine($"{ellipse.GetType()}");
-            Console.WriteLine($"{rect.GetType()}");
+            Console.WriteLine($"Generated class {ellipse.GetType()} from Svg file.");
+            Console.WriteLine($"Generated class {rect.GetType()} from Svg file.");
         }
     }
 }
