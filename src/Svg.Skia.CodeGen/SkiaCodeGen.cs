@@ -1,4 +1,5 @@
-﻿#nullable enable
+﻿//#define DIAGNOSTICTS
+#nullable enable
 using System.Text;
 using SP = Svg.Picture;
 
@@ -14,6 +15,9 @@ namespace Svg.Skia
 
             sb.AppendLine($"using System;");
             sb.AppendLine($"using System.Collections.Generic;");
+#if DIAGNOSTICTS
+            sb.AppendLine($"using System.Diagnostics;");
+#endif
             sb.AppendLine($"using SkiaSharp;");
             sb.AppendLine($"");
             sb.AppendLine($"namespace {namespaceName}");
@@ -24,7 +28,15 @@ namespace Svg.Skia
             sb.AppendLine($"");
             sb.AppendLine($"        static {className}()");
             sb.AppendLine($"        {{");
+#if DIAGNOSTICTS
+            sb.AppendLine($"            var sw = new Stopwatch();");
+            sb.AppendLine($"            sw.Start();");
+#endif
             sb.AppendLine($"            Picture = Record();");
+#if DIAGNOSTICTS
+            sb.AppendLine($"            sw.Stop();");
+            sb.AppendLine($"            Console.WriteLine($\"{className}.Record() {{sw.Elapsed.TotalMilliseconds}}ms\");");
+#endif
             sb.AppendLine($"        }}");
             sb.AppendLine($"");
             sb.AppendLine($"        private static SKPicture Record()");
@@ -49,7 +61,15 @@ namespace Svg.Skia
             sb.AppendLine($"");
             sb.AppendLine($"        public static void Draw(SKCanvas {counter.CanvasVarName})");
             sb.AppendLine($"        {{");
+#if DIAGNOSTICTS
+            sb.AppendLine($"            var sw = new Stopwatch();");
+            sb.AppendLine($"            sw.Start();");
+#endif
             sb.AppendLine($"            {counter.CanvasVarName}.DrawPicture(Picture);");
+#if DIAGNOSTICTS
+            sb.AppendLine($"            sw.Stop();");
+            sb.AppendLine($"            Console.WriteLine($\"{className}.Draw() {{sw.Elapsed.TotalMilliseconds}}ms\");");
+#endif
             sb.AppendLine($"        }}");
             sb.AppendLine($"    }}");
             sb.AppendLine($"}}");
