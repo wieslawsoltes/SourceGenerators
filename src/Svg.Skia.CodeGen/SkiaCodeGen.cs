@@ -1,5 +1,5 @@
 ﻿//#define USE_DIAGNOSTICTS
-//#define USE_DISPOSABLE
+#define USE_DISPOSABLE
 //#define USE_PAINT_RESET
 //#define USE_PATH_RESET
 #nullable enable
