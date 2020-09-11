@@ -13,7 +13,7 @@
     <IncludeBuildOutput>False</IncludeBuildOutput>
     <NoPackageAnalysis>True</NoPackageAnalysis>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <VersionPrefix>0.1.0</VersionPrefix>
     <VersionSuffix>preview1</VersionSuffix>
@@ -29,7 +29,7 @@
   <ItemGroup>
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGen.cs" Link="SkiaCodeGen.cs" />
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGenModelExtensions.cs" Link="SkiaCodeGenModelExtensions.cs" />
