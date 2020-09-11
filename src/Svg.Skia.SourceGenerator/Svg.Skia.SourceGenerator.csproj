@@ -27,11 +27,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    <None Include="Svg.Skia.SourceGenerator.props" Pack="true" PackagePath="build" Visible="false" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGen.cs" Link="SkiaCodeGen.cs" />
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGenModelExtensions.cs" Link="SkiaCodeGenModelExtensions.cs" />
   </ItemGroup>
@@ -40,11 +35,24 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.7.0" PrivateAssets="all" />
+    <PackageReference Include="Fizzler" Version="1.2.0" GeneratePathProperty="true" PrivateAssets="all" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Custom" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Picture" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" GeneratePathProperty="true" PrivateAssets="all" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" PrivateAssets="all" />
+    <!--<PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" PrivateAssets="all" />-->
+    <PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PKGFizzler)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PKGSystem_Drawing_Common)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PKGSvg_Custom)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PKGSvg_Picture)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(PKGSvg_Skia)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <!--<None Include="$(PKGSkiaSharp)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />-->
+    <None Include="Svg.Skia.SourceGenerator.props" Pack="true" PackagePath="build" Visible="false" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -53,11 +61,12 @@
 
   <Target Name="GetDependencyTargetPaths">
     <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="$(PKGFizzler)\lib\netstandard2.0\Fizzler.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Drawing_Common)\lib\netstandard2.0\System.Drawing.Common.dll" IncludeRuntimeDependency="false" />
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGSkiaSharp)\lib\netstandard2.0\SkiaSharp.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGSvg_Custom)\lib\netstandard2.0\Svg.Custom.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGSvg_Picture)\lib\netstandard2.0\Svg.Picture.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGSvg_Skia)\lib\netstandard2.0\Svg.Skia.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="$(PKGSkiaSharp)\lib\netstandard2.0\SkiaSharp.dll" IncludeRuntimeDependency="false" />
     </ItemGroup>
   </Target>
 
