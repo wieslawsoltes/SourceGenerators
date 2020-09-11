@@ -1,25 +1,51 @@
-# Experimental Svg.Skia Source Generators
+# Experimental Svg C# Source Generators
 
 SVG to C# Compiler
 
 ### About
 
-SVGC compiles SVG drawing markup to C# using SkiaSharp as rendering engine. SGC can be also used as codegen for upcomming C# 9 Source Generator feature.
+SVGC compiles SVG drawing markup to C# using SkiaSharp as rendering engine. SVGC can be also used as codegen for upcomming C# 9 Source Generator feature.
 
-### Usage
+### NuGet
 
+* https://www.nuget.org/packages/Svg.Skia.SourceGenerator
+* https://www.nuget.org/packages/svgc
+* https://www.nuget.org/packages/Svg.Skia.CodeGen
+
+### Source Generator Usage
+
+Add NuGet package reference to your `csproj`.
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="0.1.0-preview1" />
+</ItemGroup>
 ```
-dotnet run --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
+
+Include `svg` assests file in your `csproj`.
+
+```xml
+<ItemGroup>
+  <AdditionalFiles Include="Assets/Sample.svg" NamespaceName="Assets" ClassName="Sample" />
+</ItemGroup>
 ```
+
+Use generated `SKPicture` using static `Picture` property from `Sample` class.
+
+```C#
+using SkiaSharp;
+using Assets.Sample;
+
+public void Draw(SKCanvas canvas)
+{
+    canvas.DrawPicture(Sample.Picture);
+}
+```
+
+### svgc Usage
 
 ```
 svgc -i InputFile.svg -o OutputFile.cs -c ClassName -n NamespaceName
-```
-
-```
-cd src\svgc
-dotnet run -- -i ..\..\samples\Svg.Skia.SourceGenerator.Sample\Svg\e-ellipse-001.svg  -o ellipse.cs -c ellipse -n Sample
-dotnet run -- -i ..\..\samples\Svg.Skia.SourceGenerator.Sample\Svg\__tiger.svg  -o tiger.cs -c tiger -n Sample
 ```
 
 ### Links
