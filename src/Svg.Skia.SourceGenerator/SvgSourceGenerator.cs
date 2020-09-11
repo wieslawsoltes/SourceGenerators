@@ -15,9 +15,9 @@ namespace Svg.Skia
 #pragma warning disable RS2008 // Enable analyzer release tracking
             "SI0000",
 #pragma warning restore RS2008 // Enable analyzer release tracking
-            $"Error in the {nameof(SvgSourceGenerator)} generator",
-            $"Error in the the {nameof(SvgSourceGenerator)} generator: '{0}'",
-            "SvgGenerator",
+            "Error in the SvgSourceGenerator generator",
+            "Error in the SvgSourceGenerator generator: '{0}'",
+            "SvgSourceGenerator",
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
