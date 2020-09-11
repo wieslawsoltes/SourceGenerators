@@ -1,5 +1,14 @@
 # Experimental Svg C# Source Generators
 
+![.NET Core](https://github.com/wieslawsoltes/SourceGenerators/workflows/.NET%20Core/badge.svg)
+
+[![NuGet](https://img.shields.io/nuget/v/svg.skia.sourcegenerator.svg)](https://www.nuget.org/packages/svg.skia.sourcegenerator)
+[![NuGet](https://img.shields.io/nuget/dt/svg.skia.sourcegenerator.svg)](https://www.nuget.org/packages/svg.skia.sourcegenerator)
+
+[![GitHub release](https://img.shields.io/github/release/wieslawsoltes/sourcegenerators.svg)](https://github.com/wieslawsoltes/sourcegenerators)
+[![Github All Releases](https://img.shields.io/github/downloads/wieslawsoltes/sourcegenerators/total.svg)](https://github.com/wieslawsoltes/sourcegenerators)
+[![Github Releases](https://img.shields.io/github/downloads/wieslawsoltes/sourcegenerators/latest/total.svg)](https://github.com/wieslawsoltes/sourcegenerators)
+
 SVG to C# Compiler
 
 ### About
