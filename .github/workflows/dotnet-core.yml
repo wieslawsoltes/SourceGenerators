@@ -2,15 +2,22 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches:
+    - master
+    - release/*
   pull_request:
-    branches: [ master ]
+    branches:
+    - master
+    - release/*
 
 jobs:
+
   build:
-
-    runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    name: Build ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -22,4 +29,13 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Run
-      run: dotnet run --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
+      run: dotnet run --configuration Release --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
+    - name: Pack
+      if: github.event_name != 'pull_request'
+      run: dotnet pack -c Release -o ./artifacts/NuGet
+    - name: Artifacts
+      if: github.event_name != 'pull_request' && matrix.os == 'windows-2019'
+      uses: actions/upload-artifact@master
+      with:
+        name: NuGet
+        path: ./artifacts/NuGet
