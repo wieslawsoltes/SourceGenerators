@@ -18,7 +18,7 @@ Add NuGet package reference to your `csproj`.
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="0.1.0-preview1" />
+  <PackageReference Include="Svg.Skia.SourceGenerator" Version="0.1.0-preview1" />
 </ItemGroup>
 ```
 
