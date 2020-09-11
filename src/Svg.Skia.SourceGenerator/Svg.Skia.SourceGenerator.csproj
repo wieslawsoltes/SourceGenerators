@@ -4,8 +4,32 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <IsPackable>True</IsPackable>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <IncludeBuildOutput>False</IncludeBuildOutput>
+    <NoPackageAnalysis>True</NoPackageAnalysis>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>preview1</VersionSuffix>
+    <Authors>Wiesław Šoltés</Authors>
+    <Company>Wiesław Šoltés</Company>
+    <Copyright>Copyright © Wiesław Šoltés 2020</Copyright>
+    <PackageProjectUrl>https://github.com/wieslawsoltes/SourceGenerators</PackageProjectUrl>
+    <Description>An Svg drawing markup to C# source generator using SkiaSharp as rendering engine.</Description>
+    <PackageId>Svg.Skia.SourceGenerator</PackageId>
+    <PackageTags>svg;skia;skiasharp;sourcegenerator;compiler;csharp;codegen;graphics</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGen.cs" Link="SkiaCodeGen.cs" />
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGenModelExtensions.cs" Link="SkiaCodeGenModelExtensions.cs" />
@@ -13,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.7.0" PrivateAssets="all" />
     <PackageReference Include="Svg.Custom" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Picture" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
