@@ -6,6 +6,10 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <IsPackable>False</IsPackable>
+  </PropertyGroup>
+
   <ItemGroup>
     <AdditionalFiles Include="Svg/__AJ_Digital_Camera.svg" />
     <AdditionalFiles Include="Svg/__tiger.svg" />
