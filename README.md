@@ -26,6 +26,14 @@ SVGC compiles SVG drawing markup to C# using SkiaSharp as rendering engine. SVGC
 Add NuGet package reference to your `csproj`.
 
 ```xml
+<PropertyGroup>
+  <OutputType>Exe</OutputType>
+  <TargetFramework>netcoreapp3.1</TargetFramework>
+  <LangVersion>preview</LangVersion>
+</PropertyGroup>
+```
+
+```xml
 <ItemGroup>
   <PackageReference Include="Svg.Skia.SourceGenerator" Version="0.1.0-preview3" />
 </ItemGroup>
