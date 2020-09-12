@@ -43,7 +43,7 @@ Use generated `SKPicture` using static `Picture` property from `Sample` class.
 
 ```C#
 using SkiaSharp;
-using Assets.Sample;
+using Assets;
 
 public void Draw(SKCanvas canvas)
 {
