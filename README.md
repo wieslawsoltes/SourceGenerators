@@ -15,6 +15,8 @@ SVG to C# Compiler
 
 SVGC compiles SVG drawing markup to C# using SkiaSharp as rendering engine. SVGC can be also used as codegen for upcomming C# 9 Source Generator feature.
 
+[![Demo](images/Demo.png)](images/Demo.png)
+
 ### NuGet
 
 * https://www.nuget.org/packages/Svg.Skia.SourceGenerator
