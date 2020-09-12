@@ -40,7 +40,6 @@
     <PackageReference Include="Svg.Custom" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Picture" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
-    <!--<PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" PrivateAssets="all" />-->
     <PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" />
   </ItemGroup>
 
