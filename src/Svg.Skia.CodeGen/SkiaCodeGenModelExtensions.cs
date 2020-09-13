@@ -43,6 +43,11 @@ namespace Svg.Skia
 
         private static readonly char[] s_fontFamilyTrim = { '\'' };
 
+        private static string EspaceString(string text)
+        {
+            return text.Replace("\"", "\\\"");
+        }
+
         public static string ToFloatArray(this float[] array)
         {
             var result = $"new float[{array.Length}] {{ ";
@@ -1027,11 +1032,6 @@ namespace Svg.Skia
         }
 
         // TODO: ToSKPath
-
-        private static string EspaceString(string text)
-        {
-            return text.Replace("\"", "\\\"");
-        }
 
         public static void ToSKPicture(this SP.Picture? picture, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
