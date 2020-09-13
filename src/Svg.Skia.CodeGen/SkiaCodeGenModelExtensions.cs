@@ -730,8 +730,9 @@ namespace Svg.Skia
 
             if (paint.PathEffect != null)
             {
-                // TODO: PathEffect = paint.PathEffect?.ToSKPathEffect();
-                sb.AppendLine($"{indent} // TODO: {counter.PaintVarName}{counterPaint}.PathEffect");
+                var counterPathEffect = ++counter.PathEffect;
+                paint.PathEffect.ToSKPathEffect(counter, sb, indent);
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect = {counter.PathEffectVarName}{counterPathEffect};");
             }
 
             if (paint.BlendMode != SP.BlendMode.SrcOver)
