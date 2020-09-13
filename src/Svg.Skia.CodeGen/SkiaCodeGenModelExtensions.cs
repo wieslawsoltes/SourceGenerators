@@ -1061,7 +1061,7 @@ namespace Svg.Skia
                         {
                             if (drawTextCanvasCommand.Paint != null)
                             {
-                                var text = drawTextCanvasCommand.Text;
+                                var text = EspaceString(drawTextCanvasCommand.Text);
                                 var x = drawTextCanvasCommand.X;
                                 var y = drawTextCanvasCommand.Y;
                                 var counterPaint = ++counter.Paint;
