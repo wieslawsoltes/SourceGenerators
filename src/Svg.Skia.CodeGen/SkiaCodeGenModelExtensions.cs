@@ -304,25 +304,6 @@ namespace Svg.Skia
             return skColors;
         }
 
-        public static string ToSKColorPos(this float[] colorPos)
-        {
-            var result = $"new float[{colorPos.Length}] {{ ";
-
-            for (int i = 0; i < colorPos.Length; i++)
-            {
-                result += $"{colorPos[i].ToString(_ci)}f";
-
-                if (colorPos.Length > 0 && i < colorPos.Length - 1)
-                {
-                    result += $", ";
-                }
-            }
-
-            result += $" }}";
-
-            return result;
-        }
-
         public static string ToSKShaderTileMode(this SP.ShaderTileMode shaderTileMode)
         {
             switch (shaderTileMode)
