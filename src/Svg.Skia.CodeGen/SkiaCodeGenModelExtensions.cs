@@ -32,6 +32,9 @@ namespace Svg.Skia
         public string PathEffectVarName = "skPathEffect";
         public string ShaderVarName = "skShader";
         public string PathVarName = "skPath";
+        public string FontManagerVarName = "skFontManager";
+        public string FontStyleVarName = "skFontStyle";
+        public string FontStyleSetVarName = "skFontStyleSet";
     }
 
     internal static class SkiaCodeGenModelExtensions
