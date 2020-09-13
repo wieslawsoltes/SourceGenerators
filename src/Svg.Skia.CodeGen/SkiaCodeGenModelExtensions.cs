@@ -60,6 +60,25 @@ namespace Svg.Skia
             return result;
         }
 
+        public static string ToStringArray(this string[] array)
+        {
+            var result = $"new string[{array.Length}] {{ ";
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                result += $"\"{array[i]}\"";
+
+                if (array.Length > 0 && i < array.Length - 1)
+                {
+                    result += $", ";
+                }
+            }
+
+            result += $" }}";
+
+            return result;
+        }
+
         public static string ToSKPoint(this SP.Point point)
         {
             return $"new SKPoint({point.X.ToString(_ci)}f, {point.Y.ToString(_ci)}f)";
