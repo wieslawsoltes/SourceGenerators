@@ -3,11 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>preview</LangVersion>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <IsPackable>False</IsPackable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
