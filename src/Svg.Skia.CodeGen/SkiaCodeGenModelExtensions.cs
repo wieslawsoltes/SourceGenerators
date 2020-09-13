@@ -938,6 +938,11 @@ namespace Svg.Skia
 
         // TODO: ToSKPath
 
+        private static string EspaceString(string text)
+        {
+            return text.Replace("\"", "\\\"");
+        }
+
         public static void ToSKPicture(this SP.Picture? picture, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
             var counterPicture = counter.Picture;
