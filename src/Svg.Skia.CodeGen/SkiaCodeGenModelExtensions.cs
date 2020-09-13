@@ -370,7 +370,7 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Colors.ToSKColors()},");
-                            sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
+                            sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.LocalMatrix.Value.ToSKMatrix()});");
 #if USE_DISPOSABLE
@@ -385,7 +385,7 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.Start.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.End.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Colors.ToSKColors()},");
-                            sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToSKColorPos()},");
+                            sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()});");
 #if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
@@ -410,7 +410,7 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.End.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToString(_ci)}f,");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.LocalMatrix.Value.ToSKMatrix()});");
 #if USE_DISPOSABLE
@@ -427,7 +427,7 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.End.ToSKPoint()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToString(_ci)}f,");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToSKColorPos()},");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()});");
 #if USE_DISPOSABLE
                             sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
