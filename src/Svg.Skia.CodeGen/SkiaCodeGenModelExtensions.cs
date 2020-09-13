@@ -1074,14 +1074,14 @@ namespace Svg.Skia
                         {
                             if (drawTextOnPathCanvasCommand.Path != null && drawTextOnPathCanvasCommand.Paint != null)
                             {
-                                // TODO:
-                                sb.AppendLine($"{indent}// TODO: DrawTextOnPath");
-                                //var text = drawTextOnPathCanvasCommand.Text;
-                                //var path = drawTextOnPathCanvasCommand.Path.ToSKPath();
-                                //var hOffset = drawTextOnPathCanvasCommand.HOffset;
-                                //var vOffset = drawTextOnPathCanvasCommand.VOffset;
-                                //var paint = drawTextOnPathCanvasCommand.Paint.ToSKPaint();
-                                //skCanvas.DrawTextOnPath(text, path, hOffset, vOffset, paint);
+                                var text = EspaceString(drawTextOnPathCanvasCommand.Text);
+                                var counterPath = ++counter.Path;
+                                drawTextOnPathCanvasCommand.Path.ToSKPath(counter, sb, indent);
+                                var hOffset = drawTextOnPathCanvasCommand.HOffset;
+                                var vOffset = drawTextOnPathCanvasCommand.VOffset;
+                                var counterPaint = ++counter.Paint;
+                                drawTextOnPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawTextOnPath(\"{text}\", {counter.PathVarName}{counterPath}, {hOffset.ToString(_ci)}f, {vOffset.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
                             }
                         }
                         break;
