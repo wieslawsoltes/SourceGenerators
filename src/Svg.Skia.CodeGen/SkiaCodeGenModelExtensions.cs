@@ -503,7 +503,36 @@ namespace Svg.Skia
 
         // TODO: ToSKImageFilters
 
-        // TODO: ToSKPathEffect
+        public static void ToSKPathEffect(this SP.PathEffect? pathEffect, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
+        {
+            var counterPathEffect = counter.PathEffect;
+
+            switch (pathEffect)
+            {
+                case SP.DashPathEffect dashPathEffect:
+                    {
+                        if (dashPathEffect.Intervals == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.PathEffectVarName}{counterPathEffect} = default(SKPathEffect);");
+                            return;
+                        }
+
+                        sb.Append($"{indent}var {counter.PathEffectVarName}{counterPathEffect} = ");
+                        sb.AppendLine($"SKPathEffect.CreateDash(");
+                        sb.AppendLine($"{indent}    {dashPathEffect.Intervals.ToFloatArray()},");
+                        sb.AppendLine($"{indent}    {dashPathEffect.Phase.ToString(_ci)}f);");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.PathEffectVarName}{counterPathEffect});");
+#endif
+                        return;
+                    }
+                default:
+                    {
+                        sb.AppendLine($"{indent}var {counter.PathEffectVarName}{counterPathEffect} = default(SKPathEffect);");
+                        return;
+                    }
+            }
+        }
 
         public static string ToSKBlendMode(this SP.BlendMode blendMode)
         {
