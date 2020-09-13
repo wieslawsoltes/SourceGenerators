@@ -37,6 +37,25 @@ namespace Svg.Skia
     {
         private static CultureInfo _ci = CultureInfo.InvariantCulture;
 
+        public static string ToFloatArray(this float[] array)
+        {
+            var result = $"new float[{array.Length}] {{ ";
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                result += $"{array[i].ToString(_ci)}f";
+
+                if (array.Length > 0 && i < array.Length - 1)
+                {
+                    result += $", ";
+                }
+            }
+
+            result += $" }}";
+
+            return result;
+        }
+
         public static string ToSKPoint(this SP.Point point)
         {
             return $"new SKPoint({point.X.ToString(_ci)}f, {point.Y.ToString(_ci)}f)";
