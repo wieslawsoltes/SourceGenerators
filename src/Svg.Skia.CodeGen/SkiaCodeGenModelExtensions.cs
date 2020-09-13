@@ -41,6 +41,8 @@ namespace Svg.Skia
     {
         private static CultureInfo _ci = CultureInfo.InvariantCulture;
 
+        private static readonly char[] s_fontFamilyTrim = { '\'' };
+
         public static string ToFloatArray(this float[] array)
         {
             var result = $"new float[{array.Length}] {{ ";
@@ -277,7 +279,71 @@ namespace Svg.Skia
             }
         }
 
-        // TODO: ToSKTypeface
+        public static void ToSKTypeface(this SP.Typeface? typeface, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
+        {
+            var counterTypeface = counter.Typeface;
+
+            if (typeface == null || typeface.FamilyName == null)
+            {
+                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default");
+                return;
+            }
+
+            var fontFamily = typeface.FamilyName;
+            var fontWeight = typeface.Weight.ToSKFontStyleWeight();
+            var fontWidth = typeface.Width.ToSKFontStyleWidth();
+            var fontStyle = typeface.Style.ToSKFontStyleSlant();
+#if false
+            sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.FromFamilyName(\"{fontFamily}\", {fontWeight}, {fontWidth}, {fontStyle});");
+#if USE_DISPOSABLE
+            sb.AppendLine($"{indent}disposables.Add({counter.TypefaceVarName}{counterTypeface});");
+#endif
+#else
+            var fontFamilyNames = fontFamily?.Split(',')?.Select(x => x.Trim().Trim(s_fontFamilyTrim))?.ToArray();
+            if (fontFamilyNames != null && fontFamilyNames.Length > 0)
+            {
+                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = default(SKTypeface);");
+                sb.AppendLine($"{indent}var fontFamilyNames{counterTypeface} = {fontFamilyNames?.ToStringArray()};");
+                sb.AppendLine($"{indent}var defaultName{counterTypeface} = SKTypeface.Default.FamilyName;");
+                sb.AppendLine($"{indent}var {counter.FontManagerVarName}{counterTypeface} = SKFontManager.Default;");
+                sb.AppendLine($"{indent}var {counter.FontStyleVarName}{counterTypeface} = new SKFontStyle({fontWeight}, {fontWidth}, {fontStyle});");
+                sb.AppendLine($"{indent}foreach (var fontFamilyName{counterTypeface} in fontFamilyNames{counterTypeface})");
+                sb.AppendLine($"{indent}{{");
+                sb.AppendLine($"{indent}    var {counter.FontStyleSetVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.GetFontStyles(fontFamilyName{counterTypeface});");
+                sb.AppendLine($"{indent}    if ({counter.FontStyleSetVarName}{counterTypeface}.Count > 0)");
+                sb.AppendLine($"{indent}    {{");
+                sb.AppendLine($"{indent}        {counter.TypefaceVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.MatchFamily(fontFamilyName{counterTypeface}, {counter.FontStyleVarName}{counterTypeface});");
+                sb.AppendLine($"{indent}        if ({counter.TypefaceVarName}{counterTypeface} != null)");
+                sb.AppendLine($"{indent}        {{");
+                sb.AppendLine($"{indent}            if (!defaultName{counterTypeface}.Equals(fontFamilyName{counterTypeface}, StringComparison.Ordinal)");
+                sb.AppendLine($"{indent}                && defaultName{counterTypeface}.Equals({counter.TypefaceVarName}{counterTypeface}.FamilyName, StringComparison.Ordinal))");
+                sb.AppendLine($"{indent}            {{");
+                sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface}.Dispose();");
+                sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface} = null;");
+                sb.AppendLine($"{indent}                continue;");
+                sb.AppendLine($"{indent}            }}");
+                sb.AppendLine($"{indent}            break;");
+                sb.AppendLine($"{indent}        }}");
+                sb.AppendLine($"{indent}    }}");
+                sb.AppendLine($"{indent}}}");
+
+                sb.AppendLine($"{indent}if ({counter.TypefaceVarName}{counterTypeface} == null)");
+                sb.AppendLine($"{indent}{{");
+                sb.AppendLine($"{indent}    {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default;");
+                sb.AppendLine($"{indent}}}");
+#if USE_DISPOSABLE
+                sb.AppendLine($"{indent}else");
+                sb.AppendLine($"{indent}{{");
+                sb.AppendLine($"{indent}    disposables.Add({counter.TypefaceVarName}{counterTypeface});");
+                sb.AppendLine($"{indent}}}");
+#endif
+            }
+            else
+            {
+                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default;");
+            }
+#endif
+        }
 
         public static string ToSKColor(this SP.Color color)
         {
@@ -708,8 +774,9 @@ namespace Svg.Skia
 
             if (paint.Typeface != null)
             {
-                // TODO: Typeface = paint.Typeface?.ToSKTypeface();
-                sb.AppendLine($"{indent} // TODO: {counter.PaintVarName}{counterPaint}.Typeface");
+                var counterTypeface = ++counter.Typeface;
+                paint.Typeface?.ToSKTypeface(counter, sb, indent);
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Typeface = {counter.TypefaceVarName}{counterTypeface};");
             }
 
             if (paint.LcdRenderText != false)
