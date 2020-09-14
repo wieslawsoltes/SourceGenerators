@@ -18,6 +18,7 @@
     <Authors>Wiesław Šoltés</Authors>
     <Company>Wiesław Šoltés</Company>
     <Copyright>Copyright © Wiesław Šoltés 2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wieslawsoltes/SourceGenerators</PackageProjectUrl>
     <Description>An Svg drawing markup to C# code generator using SkiaSharp as rendering engine.</Description>
     <PackageId>Svg.Skia.CodeGen</PackageId>
