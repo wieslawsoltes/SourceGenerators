@@ -32,16 +32,21 @@
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGenModelExtensions.cs" Link="SkiaCodeGenModelExtensions.cs" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
+    <RestoreAdditionalProjectSources>https://dotnet.myget.org/F/roslyn/api/v3/index.json ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.7.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.7.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.8.0-2.final" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.8.0-2.final" PrivateAssets="all" />
     <PackageReference Include="Fizzler" Version="1.2.0" GeneratePathProperty="true" PrivateAssets="all" />
-    <PackageReference Include="System.Drawing.Common" Version="4.7.0" GeneratePathProperty="true" PrivateAssets="all" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.0-rc.1.20451.14" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Custom" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Picture" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
     <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" GeneratePathProperty="true" PrivateAssets="all" />
-    <PackageReference Include="SkiaSharp" Version="2.80.2-preview.33" GeneratePathProperty="true" />
+    <PackageReference Include="SkiaSharp" Version="2.80.2" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>

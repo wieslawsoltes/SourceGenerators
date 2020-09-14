@@ -59,28 +59,28 @@ namespace svgc
 
             var optionInputFile = new Option(new[] { "--inputFile", "-i" }, "The relative or absolute path to the input file")
             {
-                Required = true,
+                IsRequired = true,
                 Argument = new Argument<System.IO.FileInfo>(getDefaultValue: () => null)
             };
             rootCommand.AddOption(optionInputFile);
 
             var optionOutputFile = new Option(new[] { "--outputFile", "-o" }, "The relative or absolute path to the output file")
             {
-                Required = true,
+                IsRequired = true,
                 Argument = new Argument<System.IO.FileInfo>(getDefaultValue: () => null)
             };
             rootCommand.AddOption(optionOutputFile);
 
             var optionNamespace = new Option(new[] { "--namespace", "-n" }, "The generated C# namespace name")
             {
-                Required = false,
+                IsRequired = false,
                 Argument = new Argument<string>(getDefaultValue: () => "Svg")
             };
             rootCommand.AddOption(optionNamespace);
 
             var optionClass = new Option(new[] { "--class", "-c" }, "The generated C# class name")
             {
-                Required = false,
+                IsRequired = false,
                 Argument = new Argument<string>(getDefaultValue: () => "Generated")
             };
             rootCommand.AddOption(optionClass);
