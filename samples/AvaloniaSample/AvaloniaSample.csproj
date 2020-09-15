@@ -7,6 +7,11 @@
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
+    <PublishTrimmed>True</PublishTrimmed>
+    <PublishSingleFile>False</PublishSingleFile>
+    <PublishReadyToRun>True</PublishReadyToRun>
+  </PropertyGroup>
+  <PropertyGroup>
     <RestoreAdditionalProjectSources>https://www.myget.org/F/avalonia-ci/api/v2 ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
     <RestoreAdditionalProjectSources>https://nuget.avaloniaui.net/repository/avalonia-all/ ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
   </PropertyGroup>
