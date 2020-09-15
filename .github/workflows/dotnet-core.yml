@@ -29,13 +29,22 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Run
-      run: dotnet run --configuration Release --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
+      run: dotnet run -c Release --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
     - name: Pack
       if: github.event_name != 'pull_request'
       run: dotnet pack -c Release -o ./artifacts/NuGet
+    - name: Publish
+      if: github.event_name != 'pull_request'
+      run: dotnet publish -r win7-x64 -f netcoreapp3.1 -c Release --project ./samples/AvaloniaSample/AvaloniaSample.csproj -o ./artifacts/AvaloniaSample-win7-x64
     - name: Artifacts
       if: github.event_name != 'pull_request' && matrix.os == 'windows-latest'
       uses: actions/upload-artifact@master
       with:
         name: NuGet
         path: ./artifacts/NuGet/*.nupkg
+    - name: Artifacts
+      if: github.event_name != 'pull_request' && matrix.os == 'windows-latest'
+      uses: actions/upload-artifact@master
+      with:
+        name: AvaloniaSample-win7-x64
+        path: ./artifacts/AvaloniaSample-win7-x64
