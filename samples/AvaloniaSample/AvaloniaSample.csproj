@@ -6,11 +6,6 @@
     <Nullable>enable</Nullable>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
-  <PropertyGroup>
-    <PublishTrimmed>True</PublishTrimmed>
-    <PublishSingleFile>False</PublishSingleFile>
-    <PublishReadyToRun>True</PublishReadyToRun>
-  </PropertyGroup>
   <ItemGroup>
     <PublishReadyToRunExclude Include="Microsoft.CodeAnalysis.dll" />
   </ItemGroup>
