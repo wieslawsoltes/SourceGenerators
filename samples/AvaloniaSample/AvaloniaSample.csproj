@@ -11,6 +11,9 @@
     <PublishSingleFile>False</PublishSingleFile>
     <PublishReadyToRun>True</PublishReadyToRun>
   </PropertyGroup>
+  <ItemGroup>
+    <PublishReadyToRunExclude Include="Microsoft.CodeAnalysis.dll" />
+  </ItemGroup>
   <PropertyGroup>
     <RestoreAdditionalProjectSources>https://www.myget.org/F/avalonia-ci/api/v2 ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
     <RestoreAdditionalProjectSources>https://nuget.avaloniaui.net/repository/avalonia-all/ ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
