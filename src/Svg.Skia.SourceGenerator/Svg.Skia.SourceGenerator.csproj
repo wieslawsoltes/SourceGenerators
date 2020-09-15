@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGen.cs" Link="SkiaCodeGen.cs" />
-    <Compile Include="..\Svg.Skia.CodeGen\SkiaCodeGenModelExtensions.cs" Link="SkiaCodeGenModelExtensions.cs" />
   </ItemGroup>
 
   <PropertyGroup>
