@@ -26,23 +26,23 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build Solution
       run: dotnet build --configuration Release --no-restore
-    - name: Run
+    - name: Run Sample
       run: dotnet run -c Release --project ./samples/Svg.Skia.SourceGenerator.Sample/Svg.Skia.SourceGenerator.Sample.csproj
-    - name: Pack
+    - name: Pack NuGet
       if: github.event_name != 'pull_request'
       run: dotnet pack -c Release -o ./artifacts/NuGet
-    - name: Publish
-      if: github.event_name != 'pull_request'
+    - name: Publish AvaloniaSample
+      if: github.event_name != 'pull_request' && matrix.os == 'windows-latest'
       run: dotnet publish -r win7-x64 -f netcoreapp3.1 -c Release --project ./samples/AvaloniaSample/AvaloniaSample.csproj -o ./artifacts/AvaloniaSample-win7-x64
-    - name: Artifacts
+    - name: Artifacts NuGet
       if: github.event_name != 'pull_request' && matrix.os == 'windows-latest'
       uses: actions/upload-artifact@master
       with:
         name: NuGet
         path: ./artifacts/NuGet/*.nupkg
-    - name: Artifacts
+    - name: Artifacts AvaloniaSample
       if: github.event_name != 'pull_request' && matrix.os == 'windows-latest'
       uses: actions/upload-artifact@master
       with:
