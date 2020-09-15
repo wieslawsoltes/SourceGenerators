@@ -1,5 +1,6 @@
 ﻿//#define USE_DIAGNOSTICTS
-#define USE_DISPOSABLE
+//#define USE_DISPOSABLE
+#define USE_DISPOSE
 //#define USE_PAINT_RESET
 //#define USE_PATH_RESET
 #nullable enable
@@ -16,8 +17,8 @@ namespace Svg.Skia
 
             var sb = new StringBuilder();
 
-#if USE_DISPOSABLE
             sb.AppendLine($"using System;");
+#if USE_DISPOSABLE
             sb.AppendLine($"using System.Collections.Generic;");
 #endif
 #if USE_DIAGNOSTICTS
@@ -57,14 +58,14 @@ namespace Svg.Skia
 #if USE_PAINT_RESET
             sb.AppendLine($"{indent}var {counter.PaintVarName} = new SKPaint();");
 #if USE_DISPOSABLE
-		     sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName});");  
+		    sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName});");  
 #endif
 #endif
 
 #if USE_PATH_RESET
             sb.AppendLine($"{indent}var {counter.PathVarName} = new SKPath();");
 #if USE_DISPOSABLE
-		           sb.AppendLine($"{indent}disposables.Add({counter.PathVarName});");  
+            sb.AppendLine($"{indent}disposables.Add({counter.PathVarName});");  
 #endif
 #endif
 
@@ -76,6 +77,15 @@ namespace Svg.Skia
             sb.AppendLine($"{indent}{{");
             sb.AppendLine($"{indent}    disposable?.Dispose();");
             sb.AppendLine($"{indent}}}");
+#endif
+
+#if USE_DISPOSE
+#if USE_PAINT_RESET
+            sb.AppendLine($"{indent}{counter.PaintVarName}.Dispose();");
+#endif
+#if USE_PATH_RESET
+            sb.AppendLine($"{indent}{counter.PathVarName}.Dispose();");
+#endif
 #endif
 
             sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
