@@ -19,6 +19,8 @@ namespace Svg.Skia
         public int Canvas = -1;
         public int Paint = -1;
         public int Typeface = -1;
+        public int TextBlob = -1;
+        public int Font = -1;
         public int ColorFilter = -1;
         public int ImageFilter = -1;
         public int PathEffect = -1;
@@ -30,6 +32,8 @@ namespace Svg.Skia
         public string CanvasVarName = "skCanvas";
         public string PaintVarName = "skPaint";
         public string TypefaceVarName = "skTypeface";
+        public string TextBlobVarName = "skTextBlob";
+        public string FontVarName = "skFont";
         public string ColorFilterVarName = "skColorFilter";
         public string ImageFilterVarName = "skImageFilter";
         public string PathEffectVarName = "skPathEffect";
