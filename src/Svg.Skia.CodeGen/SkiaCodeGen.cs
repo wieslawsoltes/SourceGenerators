@@ -50,6 +50,25 @@ namespace Svg.Skia
             return text.Replace("\"", "\\\"");
         }
 
+        public static string ToByteArray(this byte[] array)
+        {
+            var result = $"new byte[{array.Length}] {{ ";
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                result += $"{array[i].ToString(_ci)}";
+
+                if (array.Length > 0 && i < array.Length - 1)
+                {
+                    result += $", ";
+                }
+            }
+
+            result += $" }}";
+
+            return result;
+        }
+
         public static string ToFloatArray(this float[] array)
         {
             var result = $"new float[{array.Length}] {{ ";
