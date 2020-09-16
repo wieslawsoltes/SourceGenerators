@@ -24,6 +24,7 @@ namespace Svg.Skia
         public int PathEffect = -1;
         public int Shader = -1;
         public int Path = -1;
+        public int Image = -1;
         public string PictureVarName = "skPicture";
         public string PictureRecorderVarName = "skPictureRecorder";
         public string CanvasVarName = "skCanvas";
@@ -34,6 +35,7 @@ namespace Svg.Skia
         public string PathEffectVarName = "skPathEffect";
         public string ShaderVarName = "skShader";
         public string PathVarName = "skPath";
+        public string ImageVarName = "skImage";
         public string FontManagerVarName = "skFontManager";
         public string FontStyleVarName = "skFontStyle";
         public string FontStyleSetVarName = "skFontStyleSet";
@@ -161,7 +163,22 @@ namespace Svg.Skia
             return $"new SKMatrix({matrix.ScaleX.ToString(_ci)}f, {matrix.SkewX.ToString(_ci)}f, {matrix.TransX.ToString(_ci)}f, {matrix.SkewY.ToString(_ci)}f, {matrix.ScaleY.ToString(_ci)}f, {matrix.TransY.ToString(_ci)}f, {matrix.Persp0.ToString(_ci)}f, {matrix.Persp1.ToString(_ci)}f, {matrix.Persp2.ToString(_ci)}f)";
         }
 
-        // TODO: ToSKImage
+        public static void ToSKImage(this SP.Image image, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
+        {
+            var counterImage = counter.Image;
+
+            if (image.Data == null)
+            {
+                sb.AppendLine($"{indent}var {counter.ImageVarName}{counterImage} = default(SKImage);");
+                return;
+            }
+
+            sb.Append($"{indent}var {counter.ImageVarName}{counterImage} = ");
+            sb.AppendLine($"SKImage.FromEncodedData({image.Data.ToByteArray()});");
+#if USE_DISPOSABLE
+            sb.AppendLine($"{indent}disposables.Add({counter.ImageVarName}{counterImage});");
+#endif
+        }
 
         public static string ToSKPaintStyle(this SP.PaintStyle paintStyle)
         {
