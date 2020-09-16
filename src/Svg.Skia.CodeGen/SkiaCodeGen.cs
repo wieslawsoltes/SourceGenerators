@@ -906,8 +906,9 @@ namespace Svg.Skia
 
             if (paint.ColorFilter != null)
             {
-                // TODO: ColorFilter = paint.ColorFilter?.ToSKColorFilter();
-                sb.AppendLine($"{indent} // TODO: {counter.PaintVarName}{counterPaint}.ColorFilter");
+                var counterColorFilter = ++counter.ColorFilter;
+                paint.ColorFilter.ToSKColorFilter(counter, sb, indent);
+                sb.AppendLine($"{indent}{counter.ColorFilterVarName}{counterColorFilter}.ColorFilter = {counter.ColorFilterVarName}{counterColorFilter};");
             }
 
             if (paint.ImageFilter != null)
