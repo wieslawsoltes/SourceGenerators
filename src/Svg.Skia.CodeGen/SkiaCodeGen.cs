@@ -1105,6 +1105,35 @@ namespace Svg.Skia
 #if USE_DISPOSABLE
                         sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
 #endif
+#if USE_DISPOSE
+                        // NOTE: Do not dispose created SKTypeface by font manager.
+                        //if (saveLayerCanvasCommand.Paint.Typeface != null)
+                        //{
+                        //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
+                        //    sb.AppendLine($"{indent}{{");
+                        //    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                        //    sb.AppendLine($"{indent}}}");
+                        //}
+                        if (paintImageFilter.Paint.Shader != null)
+                        {
+                            sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Shader?.Dispose();");
+                        }
+                        if (paintImageFilter.Paint.ColorFilter != null)
+                        {
+                            sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ColorFilter.Dispose()");
+                        }
+                        if (paintImageFilter.Paint.ImageFilter != null)
+                        {
+                            sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ImageFilter?.Dispose();");
+                        }
+                        if (paintImageFilter.Paint.PathEffect != null)
+                        {
+                            sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
+                        }
+#if !USE_PAINT_RESET
+                        sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
+#endif
+#endif
                         return;
                     }
                 case SP.PictureImageFilter pictureImageFilter:
