@@ -1960,7 +1960,7 @@ namespace Svg.Skia
                                 var y = drawTextCanvasCommand.Y;
                                 var counterPaint = ++counter.Paint;
                                 drawTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
-                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToString(_ci)}, {y.ToString(_ci)}, {counter.PaintVarName}{counterPaint});");
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawTextCanvasCommand.Paint.Typeface != null)
