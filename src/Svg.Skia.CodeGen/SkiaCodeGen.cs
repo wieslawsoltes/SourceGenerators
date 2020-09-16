@@ -1734,7 +1734,7 @@ namespace Svg.Skia
 #endif
         }
 
-        // TODO: ToSKPath
+        // TODO: ToSKPath (ClipPath)
 
         public static void ToSKPicture(this SP.Picture? picture, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
@@ -1771,7 +1771,7 @@ namespace Svg.Skia
                 {
                     case SP.ClipPathCanvasCommand clipPathCanvasCommand:
                         {
-                            // TODO:
+                            // TODO: ClipPath
                             sb.AppendLine($"{indent}// TODO: ClipPath");
                             //var path = clipPathCanvasCommand.ClipPath.ToSKPath();
                             //var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
@@ -1936,7 +1936,7 @@ namespace Svg.Skia
                         {
                             if (drawPositionedTextCanvasCommand.TextBlob != null && drawPositionedTextCanvasCommand.TextBlob.Points != null && drawPositionedTextCanvasCommand.Paint != null)
                             {
-                                // TODO:
+                                // TODO: DrawTextBlob
                                 sb.AppendLine($"{indent}// TODO: DrawTextBlob");
                                 //var text = drawPositionedTextCanvasCommand.TextBlob.Text;
                                 //var points = drawPositionedTextCanvasCommand.TextBlob.Points.ToSKPoints();
