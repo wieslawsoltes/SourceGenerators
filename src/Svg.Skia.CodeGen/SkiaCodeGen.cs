@@ -589,7 +589,77 @@ namespace Svg.Skia
             }
         }
 
-        // TODO: ToSKColorFilter
+        public static void ToSKColorFilter(this SP.ColorFilter? colorFilter, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
+        {
+            var counterColorFilter = counter.ColorFilter;
+
+            switch (colorFilter)
+            {
+                case SP.BlendModeColorFilter blendModeColorFilter:
+                    {
+                        sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
+                        sb.AppendLine($"SKColorFilter.CreateBlendMode(");
+                        sb.AppendLine($"{indent}    {blendModeColorFilter.Color.ToSKColor()},");
+                        sb.AppendLine($"{indent}    {blendModeColorFilter.Mode.ToSKBlendMode()});");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
+#endif
+                        return;
+                    }
+                case SP.ColorMatrixColorFilter colorMatrixColorFilter:
+                    {
+                        if (colorMatrixColorFilter.Matrix == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = default(SKColorFilter);");
+                            return;
+                        }
+
+                        sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
+                        sb.AppendLine($"SKColorFilter.CreateColorMatrix(");
+                        sb.AppendLine($"{indent}    {colorMatrixColorFilter.Matrix.ToFloatArray()});");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
+#endif
+                        return;
+                    }
+                case SP.LumaColorColorFilter _:
+                    {
+                        sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
+                        sb.AppendLine($"SKColorFilter.CreateLumaColor();");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
+#endif
+                        return;
+                    }
+                case SP.TableColorFilter tableColorFilter:
+                    {
+                        if (tableColorFilter.TableA == null
+                            || tableColorFilter.TableR == null
+                            || tableColorFilter.TableG == null
+                            || tableColorFilter.TableB == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = default(SKColorFilter);");
+                            return;
+                        }
+
+                        sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
+                        sb.AppendLine($"SKColorFilter.CreateTable(");
+                        sb.AppendLine($"{indent}    {tableColorFilter.TableA.ToByteArray()},");
+                        sb.AppendLine($"{indent}    {tableColorFilter.TableR.ToByteArray()},");
+                        sb.AppendLine($"{indent}    {tableColorFilter.TableG.ToByteArray()},");
+                        sb.AppendLine($"{indent}    {tableColorFilter.TableB.ToByteArray()});");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
+#endif
+                        return;
+                    }
+                default:
+                    {
+                        sb.AppendLine($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = default(SKColorFilter);");
+                        return;
+                    }
+            }
+        }
 
         public static string ToCropRect(this SP.CropRect cropRect)
         {
