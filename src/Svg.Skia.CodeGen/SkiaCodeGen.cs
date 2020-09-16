@@ -1940,14 +1940,46 @@ namespace Svg.Skia
                         {
                             if (drawPositionedTextCanvasCommand.TextBlob != null && drawPositionedTextCanvasCommand.TextBlob.Points != null && drawPositionedTextCanvasCommand.Paint != null)
                             {
-                                // TODO: DrawTextBlob
-                                sb.AppendLine($"{indent}// TODO: DrawTextBlob");
-                                //var text = drawPositionedTextCanvasCommand.TextBlob.Text;
-                                //var points = drawPositionedTextCanvasCommand.TextBlob.Points.ToSKPoints();
-                                //var paint = drawPositionedTextCanvasCommand.Paint.ToSKPaint();
-                                //var font = paint.ToFont();
-                                //var textBlob = SKTextBlob.CreatePositioned(text, font, points);
-                                //skCanvas.DrawText(textBlob, 0, 0, paint);
+                                var text = EspaceString(drawPositionedTextCanvasCommand.TextBlob.Text);
+                                var points = drawPositionedTextCanvasCommand.TextBlob.Points.ToSKPoints();
+                                var counterPaint = ++counter.Paint;
+                                drawPositionedTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
+                                var counterFont = ++counter.Font;
+                                sb.AppendLine($"{indent}var {counter.FontVarName}{counterFont} = {counter.PaintVarName}{counterPaint}.ToFont();");
+                                var counterTextBlob = ++counter.TextBlob;
+                                sb.AppendLine($"{indent}var {counter.TextBlobVarName}{counterTextBlob} = SKTextBlob.CreatePositioned(\"{text}\", {counter.FontVarName}{counterFont}, {points});");
+                                var x = drawPositionedTextCanvasCommand.X;
+                                var y = drawPositionedTextCanvasCommand.Y;
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText({counter.TextBlobVarName}{counterTextBlob}, {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
+#if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
+                                //if (drawPositionedTextCanvasCommand.Paint.Typeface != null)
+                                //{
+                                //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
+                                //    sb.AppendLine($"{indent}{{");
+                                //    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                //    sb.AppendLine($"{indent}}}");
+                                //}
+                                if (drawPositionedTextCanvasCommand.Paint.Shader != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Shader?.Dispose();");
+                                }
+                                if (drawPositionedTextCanvasCommand.Paint.ColorFilter != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ColorFilter.Dispose()");
+                                }
+                                if (drawPositionedTextCanvasCommand.Paint.ImageFilter != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ImageFilter?.Dispose();");
+                                }
+                                if (drawPositionedTextCanvasCommand.Paint.PathEffect != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
+                                }
+#if !USE_PAINT_RESET
+                                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
+#endif
+#endif
                             }
                         }
                         break;
