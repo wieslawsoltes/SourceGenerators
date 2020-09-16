@@ -699,7 +699,72 @@ namespace Svg.Skia
             }
         }
 
-        // TODO: ToSKImageFilter
+        public static void ToSKImageFilter(this SP.ImageFilter? imageFilter, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
+        {
+            var counterImageFilter = counter.ImageFilter;
+
+            switch (imageFilter)
+            {
+                case SP.ArithmeticImageFilter arithmeticImageFilter:
+                    {
+                        if (arithmeticImageFilter.Background == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = default(SKImageFilter);");
+                            return;
+                        }
+
+                        var counterImageFilterBackground = ++counter.ImageFilter;
+                        if (arithmeticImageFilter.Background == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ImageFilterVarName}{counterImageFilterBackground} = default(SKImageFilter);");
+                        }
+                        else
+                        {
+                            arithmeticImageFilter.Background?.ToSKImageFilter(counter, sb, indent);
+                        }
+
+                        var counterImageFilterForeground = ++counter.ImageFilter;
+                        if (arithmeticImageFilter.Foreground == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ImageFilterVarName}{counterImageFilterBackground} = default(SKImageFilter);");
+                        }
+                        else
+                        {
+                            arithmeticImageFilter.Foreground?.ToSKImageFilter(counter, sb, indent);
+                        }
+
+                        sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
+                        sb.AppendLine($"SKImageFilter.CreateArithmetic(");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K1.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K2.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K3.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K4.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.EforcePMColor.ToString(_ci).ToLower()},");
+                        sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
+                        sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.CropRect?.ToCropRect()});");
+#if USE_DISPOSABLE
+                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
+#endif
+                        return;
+                    }
+                case SP.BlendModeImageFilter blendModeImageFilter:
+                    {
+                        if (blendModeImageFilter.Background == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = default(SKImageFilter);");
+                            return;
+                        }
+
+                        var counterImageFilterBackground = ++counter.ImageFilter;
+                        if (blendModeImageFilter.Background == null)
+                        {
+                            sb.AppendLine($"{indent}var {counter.ImageFilterVarName}{counterImageFilterBackground} = default(SKImageFilter);");
+                        }
+                        else
+                        {
+                            blendModeImageFilter.Background?.ToSKImageFilter(counter, sb, indent);
+                        }
 
                         var counterImageFilterForeground = ++counter.ImageFilter;
                         if (blendModeImageFilter.Foreground == null)
