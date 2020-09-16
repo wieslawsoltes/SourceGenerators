@@ -1492,8 +1492,9 @@ namespace Svg.Skia
 
             if (paint.ImageFilter != null)
             {
-                // TODO: ImageFilter = paint.ImageFilter?.ToSKImageFilter();
-                sb.AppendLine($"{indent} // TODO: {counter.PaintVarName}{counterPaint}.ImageFilter");
+                var counterColorFilter = ++counter.ImageFilter;
+                paint.ImageFilter.ToSKImageFilter(counter, sb, indent);
+                sb.AppendLine($"{indent}{counter.ColorFilterVarName}{counterColorFilter}.ImageFilter = {counter.ColorFilterVarName}{counterColorFilter};");
             }
 
             if (paint.PathEffect != null)
