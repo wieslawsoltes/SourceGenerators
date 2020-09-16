@@ -1516,14 +1516,14 @@ namespace Svg.Skia
             {
                 var counterColorFilter = ++counter.ColorFilter;
                 paint.ColorFilter.ToSKColorFilter(counter, sb, indent);
-                sb.AppendLine($"{indent}{counter.ColorFilterVarName}{counterColorFilter}.ColorFilter = {counter.ColorFilterVarName}{counterColorFilter};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ColorFilter = {counter.ColorFilterVarName}{counterColorFilter};");
             }
 
             if (paint.ImageFilter != null)
             {
-                var counterColorFilter = ++counter.ImageFilter;
+                var counterImageFilter = ++counter.ImageFilter;
                 paint.ImageFilter.ToSKImageFilter(counter, sb, indent);
-                sb.AppendLine($"{indent}{counter.ColorFilterVarName}{counterColorFilter}.ImageFilter = {counter.ColorFilterVarName}{counterColorFilter};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ImageFilter = {counter.ImageFilterVarName}{counterImageFilter};");
             }
 
             if (paint.PathEffect != null)
