@@ -1239,13 +1239,41 @@ namespace Svg.Skia
                         {
                             if (drawImageCanvasCommand.Image != null)
                             {
-                                // TODO:
-                                sb.AppendLine($"{indent}// TODO: DrawImage");
-                                //var image = drawImageCanvasCommand.Image.ToSKImage();
-                                //var source = drawImageCanvasCommand.Source.ToSKRect();
-                                //var dest = drawImageCanvasCommand.Dest.ToSKRect();
-                                //var paint = drawImageCanvasCommand.Paint?.ToSKPaint();
-                                //skCanvas.DrawImage(image, source, dest, paint);
+                                var counterImage = ++counter.Image;
+                                drawImageCanvasCommand.Image.ToSKImage(counter, sb, indent);
+                                var source = drawImageCanvasCommand.Source.ToSKRect();
+                                var dest = drawImageCanvasCommand.Dest.ToSKRect();
+                                var counterPaint = ++counter.Paint;
+                                drawImageCanvasCommand.Paint?.ToSKPaint(counter, sb, indent);
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawImage({counter.ImageVarName}{counterImage}, {source}, {dest}, {counter.PaintVarName}{counterPaint});");
+#if USE_DISPOSE
+                                //if (drawImageCanvasCommand.Paint?.Typeface != null)
+                                //{
+                                //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
+                                //    sb.AppendLine($"{indent}{{");
+                                //    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                //    sb.AppendLine($"{indent}}}");
+                                //}
+                                if (drawImageCanvasCommand.Paint?.Shader != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Shader?.Dispose();");
+                                }
+                                if (drawImageCanvasCommand.Paint?.ColorFilter != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ColorFilter.Dispose()");
+                                }
+                                if (drawImageCanvasCommand.Paint?.ImageFilter != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.ImageFilter?.Dispose();");
+                                }
+                                if (drawImageCanvasCommand.Paint?.PathEffect != null)
+                                {
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
+                                }
+#if !USE_PAINT_RESET
+                                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
+#endif
+#endif
                             }
                         }
                         break;
