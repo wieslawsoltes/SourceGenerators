@@ -47,9 +47,9 @@ namespace Svg.Skia
 
         private static readonly char[] s_fontFamilyTrim = { '\'' };
 
-        private static string EspaceString(string text)
+        private static string? EspaceString(string? text)
         {
-            return text.Replace("\"", "\\\"");
+            return text?.Replace("\"", "\\\"");
         }
 
         public static string ToByteArray(this byte[] array)
