@@ -1781,6 +1781,7 @@ namespace Svg.Skia
                                 saveLayerCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.SaveLayer({counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (saveLayerCanvasCommand.Paint.Typeface != null)
                                 //{
                                 //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
@@ -1827,6 +1828,7 @@ namespace Svg.Skia
                                 drawImageCanvasCommand.Paint?.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawImage({counter.ImageVarName}{counterImage}, {source}, {dest}, {counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawImageCanvasCommand.Paint?.Typeface != null)
                                 //{
                                 //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
@@ -1867,6 +1869,7 @@ namespace Svg.Skia
                                 drawPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawPath({counter.PathVarName}{counterPath}, {counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawPathCanvasCommand.Paint.Typeface != null)
                                 //{
                                 //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
@@ -1926,6 +1929,7 @@ namespace Svg.Skia
                                 drawTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToString(_ci)}, {y.ToString(_ci)}, {counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawTextCanvasCommand.Paint.Typeface != null)
                                 //{
                                 //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
@@ -1969,6 +1973,7 @@ namespace Svg.Skia
                                 drawTextOnPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawTextOnPath(\"{text}\", {counter.PathVarName}{counterPath}, {hOffset.ToString(_ci)}f, {vOffset.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
 #if USE_DISPOSE
+                                // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawTextOnPathCanvasCommand.Paint.Typeface != null)
                                 //{
                                 //    sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
