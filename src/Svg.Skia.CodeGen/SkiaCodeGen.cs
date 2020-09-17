@@ -1,5 +1,4 @@
 ﻿//#define USE_DIAGNOSTICTS
-#define USE_DISPOSE
 //#define USE_PAINT_RESET
 //#define USE_PATH_RESET
 #nullable enable
@@ -537,9 +536,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
                         sb.AppendLine($"{indent}    {pictureShader.LocalMatrix.ToSKMatrix()},");
                         sb.AppendLine($"{indent}    {pictureShader.Tile.ToSKRect()});");
-#if USE_DISPOSE
                         sb.AppendLine($"{indent}{counter.PictureVarName}{counterPicture}?.Dispose();");
-#endif
                         return;
                     }
                 case SP.PerlinNoiseFractalNoiseShader perlinNoiseFractalNoiseShader:
@@ -1017,7 +1014,7 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreatePaint(");
                         sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint},");
                         sb.AppendLine($"{indent}    {paintImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSE
+
                         // NOTE: Do not dispose created SKTypeface by font manager.
                         //if (saveLayerCanvasCommand.Paint.Typeface != null)
                         //{
@@ -1044,7 +1041,6 @@ namespace Svg.Skia
                         }
 #if !USE_PAINT_RESET
                         sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
 #endif
                         return;
                     }
@@ -1622,20 +1618,15 @@ namespace Svg.Skia
 
             var counterPictureRecorder = ++counter.PictureRecorder;
             var counterCanvas = ++counter.Canvas;
-#if USE_DISPOSE
+
             sb.AppendLine($"{indent}var {counter.PictureRecorderVarName}{counterPictureRecorder} = new SKPictureRecorder();");
             sb.AppendLine($"{indent}var {counter.CanvasVarName}{counterCanvas} = {counter.PictureRecorderVarName}{counterPictureRecorder}.BeginRecording({picture.CullRect.ToSKRect()});");
-#else
-            sb.AppendLine($"{indent}using var {counter.PictureRecorderVarName}{counterPictureRecorder} = new SKPictureRecorder();");
-            sb.AppendLine($"{indent}using var {counter.CanvasVarName}{counterCanvas} = {counter.PictureRecorderVarName}{counterPictureRecorder}.BeginRecording({picture.CullRect.ToSKRect()});");
-#endif
+
             if (picture.Commands == null)
             {
                 sb.AppendLine($"{indent}var {counter.PictureVarName}{counterPicture} = {counter.PictureRecorderVarName}{counterPictureRecorder}.EndRecording();");
-#if USE_DISPOSE
                 sb.AppendLine($"{indent}{counter.PictureRecorderVarName}{counterPictureRecorder}?.Dispose();");
                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}?.Dispose();");
-#endif
                 return;
             }
 
@@ -1683,7 +1674,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 saveLayerCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.SaveLayer({counter.PaintVarName}{counterPaint});");
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (saveLayerCanvasCommand.Paint.Typeface != null)
                                 //{
@@ -1711,7 +1702,6 @@ namespace Svg.Skia
 #if !USE_PAINT_RESET
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
 #endif
-#endif
                             }
                             else
                             {
@@ -1730,8 +1720,9 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawImageCanvasCommand.Paint?.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawImage({counter.ImageVarName}{counterImage}, {source}, {dest}, {counter.PaintVarName}{counterPaint});");
+                                
                                 // TODO: Dispose SKImage
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawImageCanvasCommand.Paint?.Typeface != null)
                                 //{
@@ -1759,7 +1750,6 @@ namespace Svg.Skia
 #if !USE_PAINT_RESET
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
 #endif
-#endif
                             }
                         }
                         break;
@@ -1772,7 +1762,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawPath({counter.PathVarName}{counterPath}, {counter.PaintVarName}{counterPaint});");
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawPathCanvasCommand.Paint.Typeface != null)
                                 //{
@@ -1803,7 +1793,6 @@ namespace Svg.Skia
 #if !USE_PATH_RESET
                                 sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}?.Dispose();");
 #endif
-#endif
                             }
                         }
                         break;
@@ -1822,7 +1811,7 @@ namespace Svg.Skia
                                 var x = drawPositionedTextCanvasCommand.X;
                                 var y = drawPositionedTextCanvasCommand.Y;
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText({counter.TextBlobVarName}{counterTextBlob}, {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawPositionedTextCanvasCommand.Paint.Typeface != null)
                                 //{
@@ -1850,7 +1839,6 @@ namespace Svg.Skia
 #if !USE_PAINT_RESET
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
 #endif
-#endif
                             }
                         }
                         break;
@@ -1864,7 +1852,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawTextCanvasCommand.Paint.Typeface != null)
                                 //{
@@ -1892,7 +1880,6 @@ namespace Svg.Skia
 #if !USE_PAINT_RESET
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
 #endif
-#endif
                             }
                         }
                         break;
@@ -1908,7 +1895,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawTextOnPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawTextOnPath(\"{text}\", {counter.PathVarName}{counterPath}, {hOffset.ToString(_ci)}f, {vOffset.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
-#if USE_DISPOSE
+
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawTextOnPathCanvasCommand.Paint.Typeface != null)
                                 //{
@@ -1939,7 +1926,6 @@ namespace Svg.Skia
 #if !USE_PATH_RESET
                                 sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}?.Dispose();");
 #endif
-#endif
                             }
                         }
                         break;
@@ -1949,10 +1935,9 @@ namespace Svg.Skia
             }
 
             sb.AppendLine($"{indent}var {counter.PictureVarName}{counterPicture} = {counter.PictureRecorderVarName}{counterPictureRecorder}.EndRecording();");
-#if USE_DISPOSE
+
             sb.AppendLine($"{indent}{counter.PictureRecorderVarName}{counterPictureRecorder}?.Dispose();");
             sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}?.Dispose();");
-#endif
         }
     }
 
@@ -2006,13 +1991,11 @@ namespace Svg.Skia
             var counterPicture = ++counter.Picture;
             picture.ToSKPicture(counter, sb, indent);
 
-#if USE_DISPOSE
 #if USE_PAINT_RESET
             sb.AppendLine($"{indent}{counter.PaintVarName}?.Dispose();");
 #endif
 #if USE_PATH_RESET
             sb.AppendLine($"{indent}{counter.PathVarName}?.Dispose();");
-#endif
 #endif
 
             sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
