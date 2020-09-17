@@ -1720,7 +1720,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawImageCanvasCommand.Paint?.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawImage({counter.ImageVarName}{counterImage}, {source}, {dest}, {counter.PaintVarName}{counterPaint});");
-                                
+
                                 // TODO: Dispose SKImage
 
                                 // NOTE: Do not dispose created SKTypeface by font manager.
