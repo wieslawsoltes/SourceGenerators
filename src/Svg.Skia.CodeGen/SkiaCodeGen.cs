@@ -1,5 +1,4 @@
-﻿//#define USE_DIAGNOSTICTS
-//#define USE_PAINT_RESET
+﻿//#define USE_PAINT_RESET
 //#define USE_PATH_RESET
 #nullable enable
 using System.Collections.Generic;
@@ -1950,9 +1949,6 @@ namespace Svg.Skia
             var sb = new StringBuilder();
 
             sb.AppendLine($"using System;");
-#if USE_DIAGNOSTICTS
-            sb.AppendLine($"using System.Diagnostics;");
-#endif
             sb.AppendLine($"using SkiaSharp;");
             sb.AppendLine($"");
             sb.AppendLine($"namespace {namespaceName}");
@@ -1963,15 +1959,7 @@ namespace Svg.Skia
             sb.AppendLine($"");
             sb.AppendLine($"        static {className}()");
             sb.AppendLine($"        {{");
-#if USE_DIAGNOSTICTS
-            sb.AppendLine($"            var sw = new Stopwatch();");
-            sb.AppendLine($"            sw.Start();");
-#endif
             sb.AppendLine($"            Picture = Record();");
-#if USE_DIAGNOSTICTS
-            sb.AppendLine($"            sw.Stop();");
-            sb.AppendLine($"            Console.WriteLine($\"{className}.Record() {{sw.Elapsed.TotalMilliseconds}}ms\");");
-#endif
             sb.AppendLine($"        }}");
             sb.AppendLine($"");
             sb.AppendLine($"        private static SKPicture Record()");
@@ -2004,15 +1992,7 @@ namespace Svg.Skia
             sb.AppendLine($"");
             sb.AppendLine($"        public static void Draw(SKCanvas {counter.CanvasVarName})");
             sb.AppendLine($"        {{");
-#if USE_DIAGNOSTICTS
-            sb.AppendLine($"            var sw = new Stopwatch();");
-            sb.AppendLine($"            sw.Start();");
-#endif
             sb.AppendLine($"            {counter.CanvasVarName}.DrawPicture(Picture);");
-#if USE_DIAGNOSTICTS
-            sb.AppendLine($"            sw.Stop();");
-            sb.AppendLine($"            Console.WriteLine($\"{className}.Draw() {{sw.Elapsed.TotalMilliseconds}}ms\");");
-#endif
             sb.AppendLine($"        }}");
             sb.AppendLine($"    }}");
             sb.AppendLine($"}}");
