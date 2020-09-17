@@ -1,6 +1,4 @@
-﻿//#define USE_PAINT_RESET
-//#define USE_PATH_RESET
-#nullable enable
+﻿#nullable enable
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -1038,9 +1036,8 @@ namespace Svg.Skia
                         {
                             sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                         }
-#if !USE_PAINT_RESET
+
                         sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
                         return;
                     }
                 case SP.PictureImageFilter pictureImageFilter:
@@ -1297,12 +1294,7 @@ namespace Svg.Skia
         {
             var counterPaint = counter.Paint;
 
-#if USE_PAINT_RESET
-            sb.AppendLine($"{indent}var {counter.PaintVarName}{counterPaint} = {counter.PaintVarName};");
-            sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.Reset();");
-#else
             sb.AppendLine($"{indent}var {counter.PaintVarName}{counterPaint} = new SKPaint();");
-#endif
 
             // SKPaint defaults:
             // Style=Fill
@@ -1484,20 +1476,11 @@ namespace Svg.Skia
         {
             var counterPath = counter.Path;
 
-#if USE_PATH_RESET
-            sb.AppendLine($"{indent}var {counter.PathVarName}{counterPath} = {counter.PathVarName};");
-            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.Reset();");
-            if (path.FillType != SP.PathFillType.Winding)
-            {
-                sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.FillType = {path.FillType.ToSKPathFillType()};");
-            }
-#else
             sb.AppendLine($"{indent}var {counter.PathVarName}{counterPath} = new SKPath();");
             if (path.FillType != SP.PathFillType.Winding)
             {
                 sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.FillType = {path.FillType.ToSKPathFillType()};");
             }
-#endif
 
             if (path.Commands == null)
             {
@@ -1698,9 +1681,8 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
                             }
                             else
                             {
@@ -1746,9 +1728,8 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
                             }
                         }
                         break;
@@ -1786,12 +1767,9 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
-#if !USE_PATH_RESET
                                 sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}?.Dispose();");
-#endif
                             }
                         }
                         break;
@@ -1835,9 +1813,8 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
                             }
                         }
                         break;
@@ -1876,9 +1853,8 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
                             }
                         }
                         break;
@@ -1919,12 +1895,9 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.PathEffect?.Dispose();");
                                 }
-#if !USE_PAINT_RESET
+
                                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.Dispose();");
-#endif
-#if !USE_PATH_RESET
                                 sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}?.Dispose();");
-#endif
                             }
                         }
                         break;
@@ -1965,26 +1938,10 @@ namespace Svg.Skia
             sb.AppendLine($"        private static SKPicture Record()");
             sb.AppendLine($"        {{");
 
-
             var indent = "            ";
-
-#if USE_PAINT_RESET
-            sb.AppendLine($"{indent}var {counter.PaintVarName} = new SKPaint();");
-#endif
-
-#if USE_PATH_RESET
-            sb.AppendLine($"{indent}var {counter.PathVarName} = new SKPath();");
-#endif
 
             var counterPicture = ++counter.Picture;
             picture.ToSKPicture(counter, sb, indent);
-
-#if USE_PAINT_RESET
-            sb.AppendLine($"{indent}{counter.PaintVarName}?.Dispose();");
-#endif
-#if USE_PATH_RESET
-            sb.AppendLine($"{indent}{counter.PathVarName}?.Dispose();");
-#endif
 
             sb.AppendLine($"{indent}return {counter.PictureVarName}{counterPicture};");
 
