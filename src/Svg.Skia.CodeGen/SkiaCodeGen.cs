@@ -1,5 +1,4 @@
 ﻿//#define USE_DIAGNOSTICTS
-//#define USE_DISPOSABLE
 #define USE_DISPOSE
 //#define USE_PAINT_RESET
 //#define USE_PATH_RESET
@@ -179,9 +178,6 @@ namespace Svg.Skia
 
             sb.Append($"{indent}var {counter.ImageVarName}{counterImage} = ");
             sb.AppendLine($"SKImage.FromEncodedData({image.Data.ToByteArray()});");
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}disposables.Add({counter.ImageVarName}{counterImage});");
-#endif
         }
 
         public static string ToSKPaintStyle(this SP.PaintStyle paintStyle)
@@ -342,9 +338,6 @@ namespace Svg.Skia
             var fontStyle = typeface.Style.ToSKFontStyleSlant();
 #if false
             sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.FromFamilyName(\"{fontFamily}\", {fontWeight}, {fontWidth}, {fontStyle});");
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}disposables.Add({counter.TypefaceVarName}{counterTypeface});");
-#endif
 #else
             var fontFamilyNames = fontFamily?.Split(',')?.Select(x => x.Trim().Trim(s_fontFamilyTrim))?.ToArray();
             if (fontFamilyNames != null && fontFamilyNames.Length > 0)
@@ -373,12 +366,6 @@ namespace Svg.Skia
                 sb.AppendLine($"{indent}        }}");
                 sb.AppendLine($"{indent}    }}");
                 sb.AppendLine($"{indent}}}");
-#if USE_DISPOSABLE
-                sb.AppendLine($"{indent}if ({counter.TypefaceVarName}{counterTypeface} != null)");
-                sb.AppendLine($"{indent}{{");
-                sb.AppendLine($"{indent}    disposables.Add({counter.TypefaceVarName}{counterTypeface});");
-                sb.AppendLine($"{indent}}}");
-#endif
             }
             else
             {
@@ -462,9 +449,6 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreateColor(");
                         sb.AppendLine($"{indent}    {colorShader.Color.ToSKColor()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                         return;
                     }
                 case SP.LinearGradientShader linearGradientShader:
@@ -485,9 +469,6 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.LocalMatrix.Value.ToSKMatrix()});");
-#if USE_DISPOSABLE
-                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                             return;
                         }
                         else
@@ -499,9 +480,6 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {linearGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {linearGradientShader.Mode.ToSKShaderTileMode()});");
-#if USE_DISPOSABLE
-                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                             return;
                         }
                     }
@@ -525,9 +503,6 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.LocalMatrix.Value.ToSKMatrix()});");
-#if USE_DISPOSABLE
-                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                             return;
                         }
                         else
@@ -541,9 +516,6 @@ namespace Svg.Skia
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()});");
-#if USE_DISPOSABLE
-                            sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                             return;
                         }
                     }
@@ -565,10 +537,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    SKShaderTileMode.Repeat,");
                         sb.AppendLine($"{indent}    {pictureShader.LocalMatrix.ToSKMatrix()},");
                         sb.AppendLine($"{indent}    {pictureShader.Tile.ToSKRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-                        sb.AppendLine($"{indent}disposables.Add({counter.PictureVarName}{counterPicture});");
-#endif
 #if USE_DISPOSE
                         sb.AppendLine($"{indent}{counter.PictureVarName}{counterPicture}?.Dispose();");
 #endif
@@ -583,9 +551,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.TileSize.ToSKPointI()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                         return;
                     }
                 case SP.PerlinNoiseTurbulenceShader perlinNoiseTurbulenceShader:
@@ -597,9 +562,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.NumOctaves.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.Seed.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.TileSize.ToSKPointI()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ShaderVarName}{counterShader});");
-#endif
                         return;
                     }
                 default:
@@ -622,9 +584,6 @@ namespace Svg.Skia
                         sb.AppendLine($"SKColorFilter.CreateBlendMode(");
                         sb.AppendLine($"{indent}    {blendModeColorFilter.Color.ToSKColor()},");
                         sb.AppendLine($"{indent}    {blendModeColorFilter.Mode.ToSKBlendMode()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
-#endif
                         return;
                     }
                 case SP.ColorMatrixColorFilter colorMatrixColorFilter:
@@ -638,18 +597,12 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
                         sb.AppendLine($"SKColorFilter.CreateColorMatrix(");
                         sb.AppendLine($"{indent}    {colorMatrixColorFilter.Matrix.ToFloatArray()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
-#endif
                         return;
                     }
                 case SP.LumaColorColorFilter _:
                     {
                         sb.Append($"{indent}var {counter.ColorFilterVarName}{counterColorFilter} = ");
                         sb.AppendLine($"SKColorFilter.CreateLumaColor();");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
-#endif
                         return;
                     }
                 case SP.TableColorFilter tableColorFilter:
@@ -669,9 +622,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {tableColorFilter.TableR.ToByteArray()},");
                         sb.AppendLine($"{indent}    {tableColorFilter.TableG.ToByteArray()},");
                         sb.AppendLine($"{indent}    {tableColorFilter.TableB.ToByteArray()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ColorFilterVarName}{counterColorFilter});");
-#endif
                         return;
                     }
                 default:
@@ -747,9 +697,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
                         sb.AppendLine($"{indent}    {arithmeticImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.BlendModeImageFilter blendModeImageFilter:
@@ -786,9 +733,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
                         sb.AppendLine($"{indent}    {blendModeImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.BlurImageFilter blurImageFilter:
@@ -809,9 +753,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {blurImageFilter.SigmaY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {blurImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.ColorFilterImageFilter colorFilterImageFilter:
@@ -840,9 +781,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {counter.ColorFilterVarName}{counterColorFilter},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {colorFilterImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.DilateImageFilter dilateImageFilter:
@@ -863,9 +801,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {dilateImageFilter.RadiusY.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {dilateImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.DisplacementMapEffectImageFilter displacementMapEffectImageFilter:
@@ -897,9 +832,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterDisplacement},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.DistantLitDiffuseImageFilter distantLitDiffuseImageFilter:
@@ -922,9 +854,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.DistantLitSpecularImageFilter distantLitSpecularImageFilter:
@@ -948,9 +877,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.ErodeImageFilter erodeImageFilter:
@@ -971,9 +897,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {erodeImageFilter.RadiusY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {erodeImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.ImageImageFilter imageImageFilter:
@@ -993,9 +916,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {imageImageFilter.Src.ToSKRect()},");
                         sb.AppendLine($"{indent}    {imageImageFilter.Dst.ToSKRect()},");
                         sb.AppendLine($"{indent}    SKFilterQuality.High);");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.MatrixConvolutionImageFilter matrixConvolutionImageFilter:
@@ -1027,9 +947,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.ConvolveAlpha.ToString(_ci).ToLower()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.MergeImageFilter mergeImageFilter:
@@ -1063,9 +980,6 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateMerge(");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}s{counterImageFilter},");
                         sb.AppendLine($"{indent}    {mergeImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.OffsetImageFilter offsetImageFilter:
@@ -1086,9 +1000,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {offsetImageFilter.Dy.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {offsetImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.PaintImageFilter paintImageFilter:
@@ -1106,9 +1017,6 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreatePaint(");
                         sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint},");
                         sb.AppendLine($"{indent}    {paintImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
 #if USE_DISPOSE
                         // NOTE: Do not dispose created SKTypeface by font manager.
                         //if (saveLayerCanvasCommand.Paint.Typeface != null)
@@ -1155,9 +1063,6 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreatePicture(");
                         sb.AppendLine($"{indent}    {counter.PictureVarName}{counterPicture},");
                         sb.AppendLine($"{indent}    {pictureImageFilter.Picture.CullRect.ToSKRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.PointLitDiffuseImageFilter pointLitDiffuseImageFilter:
@@ -1180,9 +1085,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.PointLitSpecularImageFilter pointLitSpecularImageFilter:
@@ -1206,9 +1108,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.SpotLitDiffuseImageFilter spotLitDiffuseImageFilter:
@@ -1234,9 +1133,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.SpotLitSpecularImageFilter spotLitSpecularImageFilter:
@@ -1263,9 +1159,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CropRect?.ToCropRect()});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 case SP.TileImageFilter tileImageFilter:
@@ -1285,9 +1178,6 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {tileImageFilter.Src.ToSKRect()},");
                         sb.AppendLine($"{indent}    {tileImageFilter.Dst.ToSKRect()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput});");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.ImageFilterVarName}{counterImageFilter});");
-#endif
                         return;
                     }
                 default:
@@ -1316,9 +1206,6 @@ namespace Svg.Skia
                         sb.AppendLine($"SKPathEffect.CreateDash(");
                         sb.AppendLine($"{indent}    {dashPathEffect.Intervals.ToFloatArray()},");
                         sb.AppendLine($"{indent}    {dashPathEffect.Phase.ToString(_ci)}f);");
-#if USE_DISPOSABLE
-                        sb.AppendLine($"{indent}disposables.Add({counter.PathEffectVarName}{counterPathEffect});");
-#endif
                         return;
                     }
                 default:
@@ -1546,12 +1433,6 @@ namespace Svg.Skia
             {
                 sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.FilterQuality = {paint.FilterQuality.ToSKFilterQuality()};");
             }
-
-#if !USE_PAINT_RESET
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName}{counterPaint});");
-#endif
-#endif
         }
 
         public static string ToSKClipOperation(this SP.ClipOperation clipOperation)
@@ -1625,11 +1506,6 @@ namespace Svg.Skia
 
             if (path.Commands == null)
             {
-#if !USE_PATH_RESET
-#if USE_DISPOSABLE
-                sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
-#endif
-#endif
                 return;
             }
 
@@ -1730,12 +1606,6 @@ namespace Svg.Skia
                         break;
                 }
             }
-
-#if !USE_PATH_RESET
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}disposables.Add({counter.PathVarName}{counterPath});");
-#endif
-#endif
         }
 
         // TODO: ToSKPath (ClipPath)
@@ -1860,6 +1730,7 @@ namespace Svg.Skia
                                 var counterPaint = ++counter.Paint;
                                 drawImageCanvasCommand.Paint?.ToSKPaint(counter, sb, indent);
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawImage({counter.ImageVarName}{counterImage}, {source}, {dest}, {counter.PaintVarName}{counterPaint});");
+                                // TODO: Dispose SKImage
 #if USE_DISPOSE
                                 // NOTE: Do not dispose created SKTypeface by font manager.
                                 //if (drawImageCanvasCommand.Paint?.Typeface != null)
@@ -2094,9 +1965,6 @@ namespace Svg.Skia
             var sb = new StringBuilder();
 
             sb.AppendLine($"using System;");
-#if USE_DISPOSABLE
-            sb.AppendLine($"using System.Collections.Generic;");
-#endif
 #if USE_DIAGNOSTICTS
             sb.AppendLine($"using System.Diagnostics;");
 #endif
@@ -2127,33 +1995,16 @@ namespace Svg.Skia
 
             var indent = "            ";
 
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}var disposables = new List<IDisposable>();");
-#endif
-
 #if USE_PAINT_RESET
             sb.AppendLine($"{indent}var {counter.PaintVarName} = new SKPaint();");
-#if USE_DISPOSABLE
-		    sb.AppendLine($"{indent}disposables.Add({counter.PaintVarName});");  
-#endif
 #endif
 
 #if USE_PATH_RESET
             sb.AppendLine($"{indent}var {counter.PathVarName} = new SKPath();");
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}disposables.Add({counter.PathVarName});");  
-#endif
 #endif
 
             var counterPicture = ++counter.Picture;
             picture.ToSKPicture(counter, sb, indent);
-
-#if USE_DISPOSABLE
-            sb.AppendLine($"{indent}foreach (var disposable in disposables)");
-            sb.AppendLine($"{indent}{{");
-            sb.AppendLine($"{indent}    disposable?.Dispose();");
-            sb.AppendLine($"{indent}}}");
-#endif
 
 #if USE_DISPOSE
 #if USE_PAINT_RESET
