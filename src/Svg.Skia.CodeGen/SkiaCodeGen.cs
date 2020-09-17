@@ -332,9 +332,7 @@ namespace Svg.Skia
             var fontWeight = typeface.Weight.ToSKFontStyleWeight();
             var fontWidth = typeface.Width.ToSKFontStyleWidth();
             var fontStyle = typeface.Style.ToSKFontStyleSlant();
-#if false
-            sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.FromFamilyName(\"{fontFamily}\", {fontWeight}, {fontWidth}, {fontStyle});");
-#else
+
             var fontFamilyNames = fontFamily?.Split(',')?.Select(x => x.Trim().Trim(s_fontFamilyTrim))?.ToArray();
             if (fontFamilyNames != null && fontFamilyNames.Length > 0)
             {
@@ -367,7 +365,6 @@ namespace Svg.Skia
             {
                 sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default;");
             }
-#endif
         }
 
         public static string ToSKColor(this SP.Color color)
