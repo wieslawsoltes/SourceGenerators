@@ -334,37 +334,36 @@ namespace Svg.Skia
             var fontStyle = typeface.Style.ToSKFontStyleSlant();
 
             var fontFamilyNames = fontFamily?.Split(',')?.Select(x => x.Trim().Trim(s_fontFamilyTrim))?.ToArray();
-            if (fontFamilyNames != null && fontFamilyNames.Length > 0)
-            {
-                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = default(SKTypeface);");
-                sb.AppendLine($"{indent}var fontFamilyNames{counterTypeface} = {fontFamilyNames?.ToStringArray()};");
-                sb.AppendLine($"{indent}var defaultName{counterTypeface} = SKTypeface.Default.FamilyName;");
-                sb.AppendLine($"{indent}var {counter.FontManagerVarName}{counterTypeface} = SKFontManager.Default;");
-                sb.AppendLine($"{indent}var {counter.FontStyleVarName}{counterTypeface} = new SKFontStyle({fontWeight}, {fontWidth}, {fontStyle});");
-                sb.AppendLine($"{indent}foreach (var fontFamilyName{counterTypeface} in fontFamilyNames{counterTypeface})");
-                sb.AppendLine($"{indent}{{");
-                sb.AppendLine($"{indent}    var {counter.FontStyleSetVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.GetFontStyles(fontFamilyName{counterTypeface});");
-                sb.AppendLine($"{indent}    if ({counter.FontStyleSetVarName}{counterTypeface}.Count > 0)");
-                sb.AppendLine($"{indent}    {{");
-                sb.AppendLine($"{indent}        {counter.TypefaceVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.MatchFamily(fontFamilyName{counterTypeface}, {counter.FontStyleVarName}{counterTypeface});");
-                sb.AppendLine($"{indent}        if ({counter.TypefaceVarName}{counterTypeface} != null)");
-                sb.AppendLine($"{indent}        {{");
-                sb.AppendLine($"{indent}            if (!defaultName{counterTypeface}.Equals(fontFamilyName{counterTypeface}, StringComparison.Ordinal)");
-                sb.AppendLine($"{indent}                && defaultName{counterTypeface}.Equals({counter.TypefaceVarName}{counterTypeface}.FamilyName, StringComparison.Ordinal))");
-                sb.AppendLine($"{indent}            {{");
-                //sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface}?.Dispose();");
-                sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface} = null;");
-                sb.AppendLine($"{indent}                continue;");
-                sb.AppendLine($"{indent}            }}");
-                sb.AppendLine($"{indent}            break;");
-                sb.AppendLine($"{indent}        }}");
-                sb.AppendLine($"{indent}    }}");
-                sb.AppendLine($"{indent}}}");
-            }
-            else
+            if (fontFamilyNames == null || fontFamilyNames.Length == 0)
             {
                 sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default;");
+                return;
             }
+
+            sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = default(SKTypeface);");
+            sb.AppendLine($"{indent}var fontFamilyNames{counterTypeface} = {fontFamilyNames?.ToStringArray()};");
+            sb.AppendLine($"{indent}var defaultName{counterTypeface} = SKTypeface.Default.FamilyName;");
+            sb.AppendLine($"{indent}var {counter.FontManagerVarName}{counterTypeface} = SKFontManager.Default;");
+            sb.AppendLine($"{indent}var {counter.FontStyleVarName}{counterTypeface} = new SKFontStyle({fontWeight}, {fontWidth}, {fontStyle});");
+            sb.AppendLine($"{indent}foreach (var fontFamilyName{counterTypeface} in fontFamilyNames{counterTypeface})");
+            sb.AppendLine($"{indent}{{");
+            sb.AppendLine($"{indent}    var {counter.FontStyleSetVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.GetFontStyles(fontFamilyName{counterTypeface});");
+            sb.AppendLine($"{indent}    if ({counter.FontStyleSetVarName}{counterTypeface}.Count > 0)");
+            sb.AppendLine($"{indent}    {{");
+            sb.AppendLine($"{indent}        {counter.TypefaceVarName}{counterTypeface} = {counter.FontManagerVarName}{counterTypeface}.MatchFamily(fontFamilyName{counterTypeface}, {counter.FontStyleVarName}{counterTypeface});");
+            sb.AppendLine($"{indent}        if ({counter.TypefaceVarName}{counterTypeface} != null)");
+            sb.AppendLine($"{indent}        {{");
+            sb.AppendLine($"{indent}            if (!defaultName{counterTypeface}.Equals(fontFamilyName{counterTypeface}, StringComparison.Ordinal)");
+            sb.AppendLine($"{indent}                && defaultName{counterTypeface}.Equals({counter.TypefaceVarName}{counterTypeface}.FamilyName, StringComparison.Ordinal))");
+            sb.AppendLine($"{indent}            {{");
+            //sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface}?.Dispose();");
+            sb.AppendLine($"{indent}                {counter.TypefaceVarName}{counterTypeface} = null;");
+            sb.AppendLine($"{indent}                continue;");
+            sb.AppendLine($"{indent}            }}");
+            sb.AppendLine($"{indent}            break;");
+            sb.AppendLine($"{indent}        }}");
+            sb.AppendLine($"{indent}    }}");
+            sb.AppendLine($"{indent}}}");
         }
 
         public static string ToSKColor(this SP.Color color)
