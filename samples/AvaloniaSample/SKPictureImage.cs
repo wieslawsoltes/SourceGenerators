@@ -11,11 +11,11 @@ using SkiaSharp;
 
 namespace AvaloniaSample
 {
-    internal class PictureDrawOperation : ICustomDrawOperation
+    internal class SKPictureDrawOperation : ICustomDrawOperation
     {
         private readonly SKPicture _picture;
 
-        public PictureDrawOperation(Rect bounds, SKPicture picture)
+        public SKPictureDrawOperation(Rect bounds, SKPicture picture)
         {
             _picture = picture;
             Bounds = bounds;
@@ -41,10 +41,10 @@ namespace AvaloniaSample
         }
     }
 
-    public class SvgImage : AvaloniaObject, IImage, IAffectsRender
+    public class SKPictureImage : AvaloniaObject, IImage, IAffectsRender
     {
         public static readonly StyledProperty<SKPicture> SourceProperty =
-            AvaloniaProperty.Register<SvgImage, SKPicture>(nameof(Source));
+            AvaloniaProperty.Register<SKPictureImage, SKPicture>(nameof(Source));
 
         public event EventHandler Invalidated;
 
@@ -70,7 +70,7 @@ namespace AvaloniaSample
             using (context.PushClip(destRect))
             using (context.PushPreTransform(translate * scale))
             {
-                context.Custom(new PictureDrawOperation(new Rect(0, 0, bounds.Width, bounds.Height), source));
+                context.Custom(new SKPictureDrawOperation(new Rect(0, 0, bounds.Width, bounds.Height), source));
             }
         }
 
