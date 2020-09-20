@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20371.2" />
-    <PackageReference Include="Svg.Skia" Version="0.4.2-preview5" />
+    <PackageReference Include="Svg.Skia.Picture" Version="0.4.2-preview7" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.2" />
   </ItemGroup>
