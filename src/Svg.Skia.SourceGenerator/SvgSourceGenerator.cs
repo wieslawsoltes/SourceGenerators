@@ -21,12 +21,12 @@ namespace Svg.Skia
             DiagnosticSeverity.Error,
             isEnabledByDefault: true);
 
-        public void Initialize(InitializationContext context)
+        public void Initialize(GeneratorInitializationContext context)
         {
             //System.Diagnostics.Debugger.Launch();
         }
 
-        public void Execute(SourceGeneratorContext context)
+        public void Execute(GeneratorExecutionContext context)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Svg.Skia
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private void ExecuteInternal(SourceGeneratorContext context)
+        private void ExecuteInternal(GeneratorExecutionContext context)
         {
             context.AnalyzerConfigOptions.GlobalOptions.TryGetValue("build_property.NamespaceName", out var globalNamespaceName);
 
