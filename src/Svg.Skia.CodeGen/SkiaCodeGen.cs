@@ -1471,7 +1471,23 @@ namespace Svg.Skia
             }
         }
 
-        // TODO: ToSKPathOp
+        public static string ToSKPathOp(this SP.PathOp pathOp)
+        {
+            switch (pathOp)
+            {
+                default:
+                case SP.PathOp.Difference:
+                    return "SKPathOp.Difference";
+                case SP.PathOp.Intersect:
+                    return "SKPathOp.Intersect";
+                case SP.PathOp.Union:
+                    return "SKPathOp.Union";
+                case SP.PathOp.Xor:
+                    return "SKPathOp.Xor";
+                case SP.PathOp.ReverseDifference:
+                    return "SKPathOp.ReverseDifference";
+            }
+        }
 
         public static void ToSKPath(this SP.Path path, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
