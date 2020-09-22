@@ -1125,7 +1125,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect()} ?? "null");");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.SpotLitSpecularImageFilter spotLitSpecularImageFilter:
