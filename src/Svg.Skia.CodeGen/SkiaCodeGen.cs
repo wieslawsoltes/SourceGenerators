@@ -325,7 +325,7 @@ namespace Svg.Skia
 
             if (typeface == null || typeface.FamilyName == null)
             {
-                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default");
+                sb.AppendLine($"{indent}var {counter.TypefaceVarName}{counterTypeface} = SKTypeface.Default;");
                 return;
             }
 
