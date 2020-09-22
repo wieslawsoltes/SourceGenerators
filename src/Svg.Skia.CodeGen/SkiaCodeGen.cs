@@ -952,7 +952,7 @@ namespace Svg.Skia
 
                         var imageFilters = mergeImageFilter.Filters;
 
-                        sb.AppendLine($"{indent}var {counter.ImageFilterVarName}s{counterImageFilter} = new SKImageFilter[{imageFilters.Length}]");
+                        sb.AppendLine($"{indent}var {counter.ImageFilterVarName}s{counterImageFilter} = new SKImageFilter[{imageFilters.Length}];");
 
                         for (int i = 0; i < imageFilters.Length; i++)
                         {
