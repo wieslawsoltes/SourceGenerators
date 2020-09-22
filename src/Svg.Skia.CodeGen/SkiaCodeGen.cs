@@ -689,7 +689,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {arithmeticImageFilter.EforcePMColor.ToString(_ci).ToLower()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.BlendModeImageFilter blendModeImageFilter:
@@ -725,7 +725,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {blendModeImageFilter.Mode.ToSKBlendMode()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
-                        sb.AppendLine($"{indent}    {blendModeImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {blendModeImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.BlurImageFilter blurImageFilter:
@@ -745,7 +745,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {blurImageFilter.SigmaX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {blurImageFilter.SigmaY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {blurImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {blurImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.ColorFilterImageFilter colorFilterImageFilter:
@@ -773,7 +773,7 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateColorFilter(");
                         sb.AppendLine($"{indent}    {counter.ColorFilterVarName}{counterColorFilter},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {colorFilterImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {colorFilterImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.DilateImageFilter dilateImageFilter:
@@ -793,7 +793,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {dilateImageFilter.RadiusX.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {dilateImageFilter.RadiusY.ToString(_ci)},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {dilateImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {dilateImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.DisplacementMapEffectImageFilter displacementMapEffectImageFilter:
@@ -824,7 +824,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.Scale.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterDisplacement},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.DistantLitDiffuseImageFilter distantLitDiffuseImageFilter:
@@ -846,7 +846,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.DistantLitSpecularImageFilter distantLitSpecularImageFilter:
@@ -869,7 +869,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Ks.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.ErodeImageFilter erodeImageFilter:
@@ -889,7 +889,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {erodeImageFilter.RadiusX.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {erodeImageFilter.RadiusY.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {erodeImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {erodeImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.ImageImageFilter imageImageFilter:
@@ -939,7 +939,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.TileMode.ToSKShaderTileMode()},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.ConvolveAlpha.ToString(_ci).ToLower()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.MergeImageFilter mergeImageFilter:
@@ -972,7 +972,7 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateMerge(");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}s{counterImageFilter},");
-                        sb.AppendLine($"{indent}    {mergeImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {mergeImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.OffsetImageFilter offsetImageFilter:
@@ -992,7 +992,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {offsetImageFilter.Dx.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {offsetImageFilter.Dy.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {offsetImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {offsetImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.PaintImageFilter paintImageFilter:
@@ -1009,7 +1009,7 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreatePaint(");
                         sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint},");
-                        sb.AppendLine($"{indent}    {paintImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {paintImageFilter.CropRect?.ToCropRect() ?? "null"});");
 
                         // NOTE: Do not dispose created SKTypeface by font manager.
 #if USE_DISPOSE_TYPEFACE
@@ -1077,7 +1077,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.PointLitSpecularImageFilter pointLitSpecularImageFilter:
@@ -1100,7 +1100,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Ks.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.SpotLitDiffuseImageFilter spotLitDiffuseImageFilter:
@@ -1125,7 +1125,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect()} ?? "null");");
                         return;
                     }
                 case SP.SpotLitSpecularImageFilter spotLitSpecularImageFilter:
@@ -1151,7 +1151,7 @@ namespace Svg.Skia
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.Ks.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToString(_ci)}f,");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CropRect?.ToCropRect()});");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
                     }
                 case SP.TileImageFilter tileImageFilter:
