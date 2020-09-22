@@ -1606,10 +1606,7 @@ namespace Svg.Skia
         public static void ToSKPath(this SP.ClipPath clipPath, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent, out bool isDefault)
         {
             var counterPathResult = counter.Path;
-
-            //sb.AppendLine($"{indent}var {counter.PathVarName}{counterPathResult} = default(SKPath);");
-
-            bool isDefaultPathResult = true;
+            var isDefaultPathResult = true;
 
             if (clipPath.Clips == null)
             {
@@ -1624,7 +1621,6 @@ namespace Svg.Skia
                 if (clip.Path == null)
                 {
                     isDefault = true;
-                    //sb.AppendLine($"{indent}var {counter.PathVarName}{counterPath} = default(SKPath);");
                     return;
                 }
 
@@ -1635,10 +1631,7 @@ namespace Svg.Skia
                     var counterPathClip = ++counter.Path;
 
                     clip.Clip.ToSKPath(counter, sb, indent, out var isDefaultPathClip);
-                    //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathClip} != null)");
-                    //sb.AppendLine($"{indent}{{");
-                    //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPath} = {counter.PathVarName}{counterPath}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
-                    //sb.AppendLine($"{indent}}}");
+
                     if (!isDefaultPathClip)
                     {
                         sb.AppendLine($"{indent}{counter.PathVarName}{counterPath} = {counter.PathVarName}{counterPath}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
@@ -1649,15 +1642,6 @@ namespace Svg.Skia
                 {
                     sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.Transform({clip.Transform.Value.ToSKMatrix()});");
                 }
-
-                //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathResult} != null)");
-                //sb.AppendLine($"{indent}{{");
-                //sb.AppendLine($"{indent}    {indent}{counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPath};");
-                //sb.AppendLine($"{indent}}}");
-                //sb.AppendLine($"{indent}else");
-                //sb.AppendLine($"{indent}{{");
-                //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPath}, SKPathOp.Union);");
-                //sb.AppendLine($"{indent}}}");
 
                 if (isDefaultPathResult)
                 {
@@ -1675,11 +1659,6 @@ namespace Svg.Skia
                 var counterPathClip = ++counter.Path;
 
                 clipPath.Clip.ToSKPath(counter, sb, indent, out var isDefaultPathClip);
-
-                //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathClip} != null)");
-                //sb.AppendLine($"{indent}{{");
-                //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
-                //sb.AppendLine($"{indent}}}");
 
                 if (!isDefaultPathClip)
                 {
