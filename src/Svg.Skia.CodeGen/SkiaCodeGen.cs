@@ -1603,7 +1603,97 @@ namespace Svg.Skia
             }
         }
 
-        // TODO: ToSKPath (ClipPath)
+        public static void ToSKPath(this SP.ClipPath clipPath, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent, out bool isDefault)
+        {
+            var counterPathResult = counter.Path;
+
+            //sb.AppendLine($"{indent}var {counter.PathVarName}{counterPathResult} = default(SKPath);");
+
+            bool isDefaultPathResult = true;
+
+            if (clipPath.Clips == null)
+            {
+                isDefault = isDefaultPathResult;
+                return;
+            }
+
+            foreach (var clip in clipPath.Clips)
+            {
+                var counterPath = ++counter.Path;
+
+                if (clip.Path == null)
+                {
+                    isDefault = true;
+                    //sb.AppendLine($"{indent}var {counter.PathVarName}{counterPath} = default(SKPath);");
+                    return;
+                }
+
+                clip.Path.ToSKPath(counter, sb, indent);
+
+                if (clip.Clip != null)
+                {
+                    var counterPathClip = ++counter.Path;
+
+                    clip.Clip.ToSKPath(counter, sb, indent, out var isDefaultPathClip);
+                    //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathClip} != null)");
+                    //sb.AppendLine($"{indent}{{");
+                    //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPath} = {counter.PathVarName}{counterPath}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
+                    //sb.AppendLine($"{indent}}}");
+                    if (!isDefaultPathClip)
+                    {
+                        sb.AppendLine($"{indent}{counter.PathVarName}{counterPath} = {counter.PathVarName}{counterPath}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
+                    }
+                }
+
+                if (clip.Transform != null)
+                {
+                    sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.Transform({clip.Transform.Value.ToSKMatrix()});");
+                }
+
+                //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathResult} != null)");
+                //sb.AppendLine($"{indent}{{");
+                //sb.AppendLine($"{indent}    {indent}{counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPath};");
+                //sb.AppendLine($"{indent}}}");
+                //sb.AppendLine($"{indent}else");
+                //sb.AppendLine($"{indent}{{");
+                //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPath}, SKPathOp.Union);");
+                //sb.AppendLine($"{indent}}}");
+
+                if (isDefaultPathResult)
+                {
+                    sb.AppendLine($"{indent}var {counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPath};");
+                    isDefaultPathResult = false;
+                }
+                else
+                {
+                    sb.AppendLine($"{indent}{counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPath}, SKPathOp.Union);");
+                }
+            }
+
+            if (clipPath.Clip != null && clipPath.Clip.Clips != null)
+            {
+                var counterPathClip = ++counter.Path;
+
+                clipPath.Clip.ToSKPath(counter, sb, indent, out var isDefaultPathClip);
+
+                //sb.AppendLine($"{indent}if ({counter.PathVarName}{counterPathClip} != null)");
+                //sb.AppendLine($"{indent}{{");
+                //sb.AppendLine($"{indent}    {counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
+                //sb.AppendLine($"{indent}}}");
+
+                if (!isDefaultPathClip)
+                {
+                    sb.AppendLine($"{indent}{counter.PathVarName}{counterPathResult} = {counter.PathVarName}{counterPathResult}.Op({counter.PathVarName}{counterPathClip}, SKPathOp.Intersect);");
+                }
+            }
+
+            if (!isDefaultPathResult && clipPath.Transform != null)
+            {
+                sb.AppendLine($"{indent}{counter.PathVarName}{counterPathResult}.Transform({clipPath.Transform.Value.ToSKMatrix()});");
+            }
+
+            isDefault = isDefaultPathResult;
+        }
 
         public static void ToSKPicture(this SP.Picture? picture, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
         {
@@ -1635,12 +1725,14 @@ namespace Svg.Skia
                 {
                     case SP.ClipPathCanvasCommand clipPathCanvasCommand:
                         {
-                            // TODO: ClipPath
-                            sb.AppendLine($"{indent}// TODO: ClipPath");
-                            //var path = clipPathCanvasCommand.ClipPath.ToSKPath();
-                            //var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
-                            //var antialias = clipPathCanvasCommand.Antialias;
-                            //skCanvas.ClipPath(path, operation, antialias);
+                            var counterPath = ++counter.Path;
+                            clipPathCanvasCommand.ClipPath.ToSKPath(counter, sb, indent, out var isDefault);
+                            if (!isDefault)
+                            {
+                                var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
+                                var antialias = clipPathCanvasCommand.Antialias.ToString(_ci).ToLower();
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.ClipPath({counter.PathVarName}{counterPath}, {operation}, {antialias});");
+                            }
                         }
                         break;
                     case SP.ClipRectCanvasCommand clipRectCanvasCommand:
