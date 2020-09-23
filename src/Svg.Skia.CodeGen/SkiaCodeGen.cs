@@ -47,6 +47,30 @@ namespace Svg.Skia
 
         private static readonly char[] s_fontFamilyTrim = { '\'' };
 
+        public static string ToBoolString(this bool value)
+        {
+            return value.ToString(_ci).ToLower();
+        }
+
+        public static string ToByteString(this byte value)
+        {
+            return value.ToString(_ci);
+        }
+
+        public static string ToIntString(this int value)
+        {
+            return value.ToString(_ci);
+        }
+
+        public static string ToFloatString(this float value)
+        {
+            if (float.IsNaN(value) || float.IsNegativeInfinity(value) || float.IsPositiveInfinity(value))
+            {
+                return value.ToString(_ci);
+            }
+            return string.Concat(value.ToString(_ci), "f");
+        }
+
         private static string? EspaceString(string? text)
         {
             return text?.Replace("\"", "\\\"");
@@ -58,7 +82,7 @@ namespace Svg.Skia
 
             for (int i = 0; i < array.Length; i++)
             {
-                result += $"{array[i].ToString(_ci)}";
+                result += array[i].ToByteString();
 
                 if (array.Length > 0 && i < array.Length - 1)
                 {
@@ -77,7 +101,7 @@ namespace Svg.Skia
 
             for (int i = 0; i < array.Length; i++)
             {
-                result += $"{array[i].ToString(_ci)}f";
+                result += array[i].ToFloatString();
 
                 if (array.Length > 0 && i < array.Length - 1)
                 {
@@ -111,12 +135,12 @@ namespace Svg.Skia
 
         public static string ToSKPoint(this SP.Point point)
         {
-            return $"new SKPoint({point.X.ToString(_ci)}f, {point.Y.ToString(_ci)}f)";
+            return $"new SKPoint({point.X.ToFloatString()}, {point.Y.ToFloatString()})";
         }
 
         public static string ToSKPoint3(this SP.Point3 point3)
         {
-            return $"new SKPoint3({point3.X.ToString(_ci)}f, {point3.Y.ToString(_ci)}f, {point3.Z.ToString(_ci)}f)";
+            return $"new SKPoint3({point3.X.ToFloatString()}, {point3.Y.ToFloatString()}, {point3.Z.ToFloatString()})";
         }
 
         public static string ToSKPoints(this IList<SP.Point> points)
@@ -140,27 +164,27 @@ namespace Svg.Skia
 
         public static string ToSKPointI(this SP.PointI pointI)
         {
-            return $"new SKPointI({pointI.X.ToString(_ci)}, {pointI.Y.ToString(_ci)})";
+            return $"new SKPointI({pointI.X.ToIntString()}, {pointI.Y.ToIntString()})";
         }
 
         public static string ToSKSize(this SP.Size size)
         {
-            return $"new SKSize({size.Width.ToString(_ci)}f, {size.Height.ToString(_ci)}f)";
+            return $"new SKSize({size.Width.ToFloatString()}, {size.Height.ToFloatString()})";
         }
 
         public static string ToSKSizeI(this SP.SizeI sizeI)
         {
-            return $"new SKSizeI({sizeI.Width.ToString(_ci)}, {sizeI.Height.ToString(_ci)})";
+            return $"new SKSizeI({sizeI.Width.ToIntString()}, {sizeI.Height.ToIntString()})";
         }
 
         public static string ToSKRect(this SP.Rect rect)
         {
-            return $"new SKRect({rect.Left.ToString(_ci)}f, {rect.Top.ToString(_ci)}f, {rect.Right.ToString(_ci)}f, {rect.Bottom.ToString(_ci)}f)";
+            return $"new SKRect({rect.Left.ToFloatString()}, {rect.Top.ToFloatString()}, {rect.Right.ToFloatString()}, {rect.Bottom.ToFloatString()})";
         }
 
         public static string ToSKMatrix(this SP.Matrix matrix)
         {
-            return $"new SKMatrix({matrix.ScaleX.ToString(_ci)}f, {matrix.SkewX.ToString(_ci)}f, {matrix.TransX.ToString(_ci)}f, {matrix.SkewY.ToString(_ci)}f, {matrix.ScaleY.ToString(_ci)}f, {matrix.TransY.ToString(_ci)}f, {matrix.Persp0.ToString(_ci)}f, {matrix.Persp1.ToString(_ci)}f, {matrix.Persp2.ToString(_ci)}f)";
+            return $"new SKMatrix({matrix.ScaleX.ToFloatString()}, {matrix.SkewX.ToFloatString()}, {matrix.TransX.ToFloatString()}, {matrix.SkewY.ToFloatString()}, {matrix.ScaleY.ToFloatString()}, {matrix.TransY.ToFloatString()}, {matrix.Persp0.ToFloatString()}, {matrix.Persp1.ToFloatString()}, {matrix.Persp2.ToFloatString()})";
         }
 
         public static void ToSKImage(this SP.Image image, SkiaCodeGenObjectCounter counter, StringBuilder sb, string indent)
@@ -395,7 +419,7 @@ namespace Svg.Skia
 
         public static string ToSKColorF(this SP.ColorF color)
         {
-            return $"new SKColorF({color.Red.ToString(_ci)}f, {color.Green.ToString(_ci)}f, {color.Blue.ToString(_ci)}f, {color.Alpha.ToString(_ci)}f)";
+            return $"new SKColorF({color.Red.ToFloatString()}, {color.Green.ToFloatString()}, {color.Blue.ToFloatString()}, {color.Alpha.ToFloatString()})";
         }
 
         public static string ToSKColors(this SP.ColorF[] colors)
@@ -491,9 +515,9 @@ namespace Svg.Skia
                             sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToFloatString()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.End.ToSKPoint()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToString(_ci)}f,");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToFloatString()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()},");
@@ -505,9 +529,9 @@ namespace Svg.Skia
                             sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                             sb.AppendLine($"SKShader.CreateTwoPointConicalGradient(");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Start.ToSKPoint()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToString(_ci)}f,");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.StartRadius.ToFloatString()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.End.ToSKPoint()},");
-                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToString(_ci)}f,");
+                            sb.AppendLine($"{indent}    {twoPointConicalGradientShader.EndRadius.ToFloatString()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Colors.ToSKColors()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.ColorPos.ToFloatArray()},");
                             sb.AppendLine($"{indent}    {twoPointConicalGradientShader.Mode.ToSKShaderTileMode()});");
@@ -539,10 +563,10 @@ namespace Svg.Skia
                     {
                         sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseFractalNoise(");
-                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyX.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyY.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.NumOctaves.ToString(_ci)},");
-                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.Seed.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyX.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.BaseFrequencyY.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.NumOctaves.ToIntString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.Seed.ToFloatString()},");
                         sb.AppendLine($"{indent}    {perlinNoiseFractalNoiseShader.TileSize.ToSKPointI()});");
                         return;
                     }
@@ -550,10 +574,10 @@ namespace Svg.Skia
                     {
                         sb.Append($"{indent}var {counter.ShaderVarName}{counterShader} = ");
                         sb.AppendLine($"SKShader.CreatePerlinNoiseTurbulence(");
-                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyX.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyY.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.NumOctaves.ToString(_ci)},");
-                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.Seed.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyX.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.BaseFrequencyY.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.NumOctaves.ToIntString()},");
+                        sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.Seed.ToFloatString()},");
                         sb.AppendLine($"{indent}    {perlinNoiseTurbulenceShader.TileSize.ToSKPointI()});");
                         return;
                     }
@@ -682,11 +706,11 @@ namespace Svg.Skia
 
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateArithmetic(");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K1.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K2.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K3.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K4.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {arithmeticImageFilter.EforcePMColor.ToString(_ci).ToLower()},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K1.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K2.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K3.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.K4.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {arithmeticImageFilter.EforcePMColor.ToBoolString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterBackground},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterForeground},");
                         sb.AppendLine($"{indent}    {arithmeticImageFilter.CropRect?.ToCropRect() ?? "null"});");
@@ -742,8 +766,8 @@ namespace Svg.Skia
 
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateBlur(");
-                        sb.AppendLine($"{indent}    {blurImageFilter.SigmaX.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {blurImageFilter.SigmaY.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {blurImageFilter.SigmaX.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {blurImageFilter.SigmaY.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {blurImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -790,8 +814,8 @@ namespace Svg.Skia
 
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateDilate(");
-                        sb.AppendLine($"{indent}    {dilateImageFilter.RadiusX.ToString(_ci)},");
-                        sb.AppendLine($"{indent}    {dilateImageFilter.RadiusY.ToString(_ci)},");
+                        sb.AppendLine($"{indent}    {dilateImageFilter.RadiusX.ToIntString()},");
+                        sb.AppendLine($"{indent}    {dilateImageFilter.RadiusY.ToIntString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {dilateImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -821,7 +845,7 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateDisplacementMapEffect(");
                         sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.XChannelSelector.ToSKColorChannel()},");
                         sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.YChannelSelector.ToSKColorChannel()},");
-                        sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.Scale.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.Scale.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterDisplacement},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {displacementMapEffectImageFilter.CropRect?.ToCropRect() ?? "null"});");
@@ -843,8 +867,8 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateDistantLitDiffuse(");
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.Direction.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.Kd.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {distantLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -865,9 +889,9 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateDistantLitSpecular(");
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Direction.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Ks.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Ks.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.Shininess.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {distantLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -886,8 +910,8 @@ namespace Svg.Skia
 
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateErode(");
-                        sb.AppendLine($"{indent}    {erodeImageFilter.RadiusX.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {erodeImageFilter.RadiusY.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {erodeImageFilter.RadiusX.ToIntString()},");
+                        sb.AppendLine($"{indent}    {erodeImageFilter.RadiusY.ToIntString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {erodeImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -933,11 +957,11 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateMatrixConvolution(");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.KernelSize.ToSKSizeI()},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.Kernel.ToFloatArray()},");
-                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.Gain.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.Bias.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.Gain.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.Bias.ToFloatString()},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.KernelOffset.ToSKPointI()},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.TileMode.ToSKShaderTileMode()},");
-                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.ConvolveAlpha.ToString(_ci).ToLower()},");
+                        sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.ConvolveAlpha.ToBoolString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {matrixConvolutionImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -989,8 +1013,8 @@ namespace Svg.Skia
 
                         sb.Append($"{indent}var {counter.ImageFilterVarName}{counterImageFilter} = ");
                         sb.AppendLine($"SKImageFilter.CreateOffset(");
-                        sb.AppendLine($"{indent}    {offsetImageFilter.Dx.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {offsetImageFilter.Dy.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {offsetImageFilter.Dx.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {offsetImageFilter.Dy.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {offsetImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -1017,7 +1041,7 @@ namespace Svg.Skia
                         {
                             sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                             sb.AppendLine($"{indent}{{");
-                            sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                            sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                             sb.AppendLine($"{indent}}}");
                         } 
 #endif
@@ -1074,8 +1098,8 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreatePointLitDiffuse(");
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.Location.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.Kd.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {pointLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -1096,9 +1120,9 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreatePointLitSpecular(");
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Location.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Ks.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Shininess.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Ks.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.Shininess.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {pointLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -1119,11 +1143,11 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateSpotLitDiffuse(");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Location.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Target.ToSKPoint3()},");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SpecularExponent.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CutoffAngle.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SpecularExponent.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CutoffAngle.ToFloatString()},");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Kd.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.Kd.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {spotLitDiffuseImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -1144,12 +1168,12 @@ namespace Svg.Skia
                         sb.AppendLine($"SKImageFilter.CreateSpotLitSpecular(");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.Location.ToSKPoint3()},");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.Target.ToSKPoint3()},");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CutoffAngle.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CutoffAngle.ToFloatString()},");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.LightColor.ToSKColor()},");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SurfaceScale.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.Ks.ToString(_ci)}f,");
-                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToString(_ci)}f,");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SurfaceScale.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.Ks.ToFloatString()},");
+                        sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.SpecularExponent.ToFloatString()},");
                         sb.AppendLine($"{indent}    {counter.ImageFilterVarName}{counterImageFilterInput},");
                         sb.AppendLine($"{indent}    {spotLitSpecularImageFilter.CropRect?.ToCropRect() ?? "null"});");
                         return;
@@ -1198,7 +1222,7 @@ namespace Svg.Skia
                         sb.Append($"{indent}var {counter.PathEffectVarName}{counterPathEffect} = ");
                         sb.AppendLine($"SKPathEffect.CreateDash(");
                         sb.AppendLine($"{indent}    {dashPathEffect.Intervals.ToFloatArray()},");
-                        sb.AppendLine($"{indent}    {dashPathEffect.Phase.ToString(_ci)}f);");
+                        sb.AppendLine($"{indent}    {dashPathEffect.Phase.ToFloatString()});");
                         return;
                     }
                 default:
@@ -1320,12 +1344,12 @@ namespace Svg.Skia
 
             if (paint.IsAntialias != false)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.IsAntialias = {paint.IsAntialias.ToString(_ci).ToLower()};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.IsAntialias = {paint.IsAntialias.ToBoolString()};");
             }
 
             if (paint.StrokeWidth != 0f)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeWidth = {paint.StrokeWidth.ToString(_ci)}f;");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeWidth = {paint.StrokeWidth.ToFloatString()};");
             }
 
             if (paint.StrokeCap != SP.StrokeCap.Butt)
@@ -1340,12 +1364,12 @@ namespace Svg.Skia
 
             if (paint.StrokeMiter != 4f)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeMiter = {paint.StrokeMiter.ToString(_ci)}f;");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.StrokeMiter = {paint.StrokeMiter.ToFloatString()};");
             }
 
             if (paint.TextSize != 12f)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.TextSize = {paint.TextSize.ToString(_ci)}f;");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.TextSize = {paint.TextSize.ToFloatString()};");
             }
 
             if (paint.TextAlign != SP.TextAlign.Left)
@@ -1366,12 +1390,12 @@ namespace Svg.Skia
 
             if (paint.LcdRenderText != false)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.LcdRenderText = {paint.LcdRenderText.ToString(_ci).ToLower()};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.LcdRenderText = {paint.LcdRenderText.ToBoolString()};");
             }
 
             if (paint.SubpixelText != false)
             {
-                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.SubpixelText = {paint.SubpixelText.ToString(_ci).ToLower()};");
+                sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}.SubpixelText = {paint.SubpixelText.ToBoolString()};");
             }
 
             if (paint.TextEncoding != SP.TextEncoding.Utf8)
@@ -1512,14 +1536,14 @@ namespace Svg.Skia
                         {
                             var x = moveToPathCommand.X;
                             var y = moveToPathCommand.Y;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.MoveTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.MoveTo({x.ToFloatString()}, {y.ToFloatString()});");
                         }
                         break;
                     case SP.LineToPathCommand lineToPathCommand:
                         {
                             var x = lineToPathCommand.X;
                             var y = lineToPathCommand.Y;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.LineTo({x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.LineTo({x.ToFloatString()}, {y.ToFloatString()});");
                         }
                         break;
                     case SP.ArcToPathCommand arcToPathCommand:
@@ -1531,7 +1555,7 @@ namespace Svg.Skia
                             var sweep = arcToPathCommand.Sweep.ToSKPathDirection();
                             var x = arcToPathCommand.X;
                             var y = arcToPathCommand.Y;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.ArcTo({rx.ToString(_ci)}f, {ry.ToString(_ci)}f, {xAxisRotate.ToString(_ci)}f, {largeArc}, {sweep}, {x.ToString(_ci)}f, {y.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.ArcTo({rx.ToFloatString()}, {ry.ToFloatString()}, {xAxisRotate.ToFloatString()}, {largeArc}, {sweep}, {x.ToFloatString()}, {y.ToFloatString()});");
                         }
                         break;
                     case SP.QuadToPathCommand quadToPathCommand:
@@ -1540,7 +1564,7 @@ namespace Svg.Skia
                             var y0 = quadToPathCommand.Y0;
                             var x1 = quadToPathCommand.X1;
                             var y1 = quadToPathCommand.Y1;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.QuadTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.QuadTo({x0.ToFloatString()}, {y0.ToFloatString()}, {x1.ToFloatString()}, {y1.ToFloatString()});");
                         }
                         break;
                     case SP.CubicToPathCommand cubicToPathCommand:
@@ -1551,7 +1575,7 @@ namespace Svg.Skia
                             var y1 = cubicToPathCommand.Y1;
                             var x2 = cubicToPathCommand.X2;
                             var y2 = cubicToPathCommand.Y2;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.CubicTo({x0.ToString(_ci)}f, {y0.ToString(_ci)}f, {x1.ToString(_ci)}f, {y1.ToString(_ci)}f, {x2.ToString(_ci)}f, {y2.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.CubicTo({x0.ToFloatString()}, {y0.ToFloatString()}, {x1.ToFloatString()}, {y1.ToFloatString()}, {x2.ToFloatString()}, {y2.ToFloatString()});");
                         }
                         break;
                     case SP.ClosePathCommand _:
@@ -1570,7 +1594,7 @@ namespace Svg.Skia
                             var rect = addRoundRectPathCommand.Rect.ToSKRect();
                             var rx = addRoundRectPathCommand.Rx;
                             var ry = addRoundRectPathCommand.Ry;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddRoundRect({rect}, {rx.ToString(_ci)}f, {ry.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddRoundRect({rect}, {rx.ToFloatString()}, {ry.ToFloatString()});");
                         }
                         break;
                     case SP.AddOvalPathCommand addOvalPathCommand:
@@ -1584,7 +1608,7 @@ namespace Svg.Skia
                             var x = addCirclePathCommand.X;
                             var y = addCirclePathCommand.Y;
                             var radius = addCirclePathCommand.Radius;
-                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddCircle({x.ToString(_ci)}f, {y.ToString(_ci)}f, {radius.ToString(_ci)}f);");
+                            sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddCircle({x.ToFloatString()}, {y.ToFloatString()}, {radius.ToFloatString()});");
                         }
                         break;
                     case SP.AddPolyPathCommand addPolyPathCommand:
@@ -1592,8 +1616,8 @@ namespace Svg.Skia
                             if (addPolyPathCommand.Points != null)
                             {
                                 var points = addPolyPathCommand.Points.ToSKPoints();
-                                var close = addPolyPathCommand.Close.ToString(_ci).ToLower();
-                                sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddPoly(points, {close});");
+                                var close = addPolyPathCommand.Close.ToBoolString();
+                                sb.AppendLine($"{indent}{counter.PathVarName}{counterPath}.AddPoly({points}, {close});");
                             }
                         }
                         break;
@@ -1709,7 +1733,7 @@ namespace Svg.Skia
                             if (!isDefault)
                             {
                                 var operation = clipPathCanvasCommand.Operation.ToSKClipOperation();
-                                var antialias = clipPathCanvasCommand.Antialias.ToString(_ci).ToLower();
+                                var antialias = clipPathCanvasCommand.Antialias.ToBoolString();
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.ClipPath({counter.PathVarName}{counterPath}, {operation}, {antialias});");
                             }
                         }
@@ -1718,7 +1742,7 @@ namespace Svg.Skia
                         {
                             var rect = clipRectCanvasCommand.Rect.ToSKRect();
                             var operation = clipRectCanvasCommand.Operation.ToSKClipOperation();
-                            var antialias = clipRectCanvasCommand.Antialias.ToString(_ci).ToLower();
+                            var antialias = clipRectCanvasCommand.Antialias.ToBoolString();
                             sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.ClipRect({rect}, {operation}, {antialias});");
                         }
                         break;
@@ -1751,7 +1775,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 } 
 #endif
@@ -1799,7 +1823,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 } 
 #endif
@@ -1840,7 +1864,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 } 
 #endif
@@ -1880,7 +1904,7 @@ namespace Svg.Skia
                                 sb.AppendLine($"{indent}var {counter.TextBlobVarName}{counterTextBlob} = SKTextBlob.CreatePositioned(\"{text}\", {counter.FontVarName}{counterFont}, {points});");
                                 var x = drawPositionedTextCanvasCommand.X;
                                 var y = drawPositionedTextCanvasCommand.Y;
-                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText({counter.TextBlobVarName}{counterTextBlob}, {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText({counter.TextBlobVarName}{counterTextBlob}, {x.ToFloatString()}, {y.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
 
                                 // NOTE: Do not dispose created SKTypeface by font manager.
 #if USE_DISPOSE_TYPEFACE
@@ -1888,7 +1912,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 } 
 #endif
@@ -1922,7 +1946,7 @@ namespace Svg.Skia
                                 var y = drawTextCanvasCommand.Y;
                                 var counterPaint = ++counter.Paint;
                                 drawTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
-                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToString(_ci)}f, {y.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToFloatString()}, {y.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
 
                                 // NOTE: Do not dispose created SKTypeface by font manager.
 #if USE_DISPOSE_TYPEFACE
@@ -1930,7 +1954,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 } 
 #endif
@@ -1966,7 +1990,7 @@ namespace Svg.Skia
                                 var vOffset = drawTextOnPathCanvasCommand.VOffset;
                                 var counterPaint = ++counter.Paint;
                                 drawTextOnPathCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
-                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawTextOnPath(\"{text}\", {counter.PathVarName}{counterPath}, {hOffset.ToString(_ci)}f, {vOffset.ToString(_ci)}f, {counter.PaintVarName}{counterPaint});");
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawTextOnPath(\"{text}\", {counter.PathVarName}{counterPath}, {hOffset.ToFloatString()}, {vOffset.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
 
                                 // NOTE: Do not dispose created SKTypeface by font manager.
 #if USE_DISPOSE_TYPEFACE
@@ -1974,7 +1998,7 @@ namespace Svg.Skia
                                 {
                                     sb.AppendLine($"{indent}if ({counter.PaintVarName}{counterPaint}.Typeface != SKTypeface.Default)");
                                     sb.AppendLine($"{indent}{{");
-                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();"); ;
+                                    sb.AppendLine($"{indent}    {counter.PaintVarName}{counterPaint}.Typeface?.Dispose();");
                                     sb.AppendLine($"{indent}}}");
                                 }
 #endif
