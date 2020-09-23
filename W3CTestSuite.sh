@@ -8,7 +8,6 @@ dotnet publish ../src/svgc/svgc.csproj -c Release -f netcoreapp3.1 -r win7-x64 /
 git clone https://github.com/wieslawsoltes/SVG.git
 
 mkdir W3CTestSuite
-dotnet new console -n W3CTestSuite -o W3CTestSuite
 
 ./svgc/svgc -i ./SVG/Tests/W3CTestSuite/svg/__AJ_Digital_Camera.svg -o ./W3CTestSuite/__AJ_Digital_Camera.svg.cs -c SVG___AJ_Digital_Camera -n W3CTestSuite
 ./svgc/svgc -i ./SVG/Tests/W3CTestSuite/svg/__issue-015-01.svg -o ./W3CTestSuite/__issue-015-01.svg.cs -c SVG___issue_015_01 -n W3CTestSuite
@@ -647,4 +646,7 @@ dotnet new console -n W3CTestSuite -o W3CTestSuite
 ./svgc/svgc -i ./SVG/Tests/W3CTestSuite/svg/types-dom-svgstringlist-01-f.svg -o ./W3CTestSuite/types-dom-svgstringlist-01-f.svg.cs -c SVG_types_dom_svgstringlist_01_f -n W3CTestSuite
 ./svgc/svgc -i ./SVG/Tests/W3CTestSuite/svg/types-dom-svgtransformable-01-f.svg -o ./W3CTestSuite/types-dom-svgtransformable-01-f.svg.cs -c SVG_types_dom_svgtransformable_01_f -n W3CTestSuite
 
+dotnet new console -n W3CTestSuite -o W3CTestSuite
+dotnet add ./W3CTestSuite/W3CTestSuite.csproj package -v 2.80.2 SkiaSharp
+dotnet add ./W3CTestSuite/W3CTestSuite.csproj package -v 2.80.2 SkiaSharp.NativeAssets.Linux
 dotnet build ./W3CTestSuite/W3CTestSuite.csproj
