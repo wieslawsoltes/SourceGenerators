@@ -64,7 +64,28 @@ public void Draw(SKCanvas canvas)
 ### svgc Usage
 
 ```
-svgc -i InputFile.svg -o OutputFile.cs -c ClassName -n NamespaceName
+svgc:
+  Converts a svg file to a C# code.
+
+Usage:
+  svgc [options]
+
+Options:
+  -i, --inputFile <inputfile>      The relative or absolute path to the input file [default: ]
+  -o, --outputFile <outputfile>    The relative or absolute path to the output file [default: ]
+  -j, --jsonFile <jsonfile>        The relative or absolute path to the json file [default: ]
+  -n, --namespace <namespace>      The generated C# namespace name [default: Svg]
+  -c, --class <class>              The generated C# class name [default: Generated]
+  --version                        Show version information
+  -?, -h, --help                   Show help and usage information
+```
+
+Json File Format
+```json
+[
+    { "InputFile":"file1.svg", "OutputFile":"file1.svg.cs", "Class":"ClassName1", "Namespace":"NamespaceName" },
+    { "InputFile":"file2.svg", "OutputFile":"file2.svg.cs", "Class":"ClassName2", "Namespace":"NamespaceName" }
+]
 ```
 
 ### Links
