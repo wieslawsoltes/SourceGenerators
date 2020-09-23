@@ -1901,7 +1901,7 @@ namespace Svg.Skia
                                 var counterFont = ++counter.Font;
                                 sb.AppendLine($"{indent}var {counter.FontVarName}{counterFont} = {counter.PaintVarName}{counterPaint}.ToFont();");
                                 var counterTextBlob = ++counter.TextBlob;
-                                sb.AppendLine($"{indent}var {counter.TextBlobVarName}{counterTextBlob} = SKTextBlob.CreatePositioned(\"{text}\", {counter.FontVarName}{counterFont}, {points});");
+                                sb.AppendLine($"{indent}var {counter.TextBlobVarName}{counterTextBlob} = SKTextBlob.CreatePositioned(@\"{text}\", {counter.FontVarName}{counterFont}, {points});");
                                 var x = drawPositionedTextCanvasCommand.X;
                                 var y = drawPositionedTextCanvasCommand.Y;
                                 sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText({counter.TextBlobVarName}{counterTextBlob}, {x.ToFloatString()}, {y.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
@@ -1946,7 +1946,7 @@ namespace Svg.Skia
                                 var y = drawTextCanvasCommand.Y;
                                 var counterPaint = ++counter.Paint;
                                 drawTextCanvasCommand.Paint.ToSKPaint(counter, sb, indent);
-                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(\"{text}\", {x.ToFloatString()}, {y.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
+                                sb.AppendLine($"{indent}{counter.CanvasVarName}{counterCanvas}.DrawText(@\"{text}\", {x.ToFloatString()}, {y.ToFloatString()}, {counter.PaintVarName}{counterPaint});");
 
                                 // NOTE: Do not dispose created SKTypeface by font manager.
 #if USE_DISPOSE_TYPEFACE
