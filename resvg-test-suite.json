@@ -1260,7 +1260,7 @@
     { "InputFile":"./resvg-test-suite/svg/e-textPath-036.svg", "OutputFile":"./resvgtestsuite/e-textPath-036.svg.cs", "Class":"SVG_e_textPath_036", "Namespace":"resvgtestsuite" },
     { "InputFile":"./resvg-test-suite/svg/e-textPath-037.svg", "OutputFile":"./resvgtestsuite/e-textPath-037.svg.cs", "Class":"SVG_e_textPath_037", "Namespace":"resvgtestsuite" },
     { "InputFile":"./resvg-test-suite/svg/e-tref-001.svg", "OutputFile":"./resvgtestsuite/e-tref-001.svg.cs", "Class":"SVG_e_tref_001", "Namespace":"resvgtestsuite" },
-    { "InputFile":"./resvg-test-suite/svg/e-tref-002.svg", "OutputFile":"./resvgtestsuite/e-tref-002.svg.cs", "Class":"SVG_e_tref_002", "Namespace":"resvgtestsuite" },
+    //{ "InputFile":"./resvg-test-suite/svg/e-tref-002.svg", "OutputFile":"./resvgtestsuite/e-tref-002.svg.cs", "Class":"SVG_e_tref_002", "Namespace":"resvgtestsuite" },
     { "InputFile":"./resvg-test-suite/svg/e-tref-003.svg", "OutputFile":"./resvgtestsuite/e-tref-003.svg.cs", "Class":"SVG_e_tref_003", "Namespace":"resvgtestsuite" },
     { "InputFile":"./resvg-test-suite/svg/e-tref-004.svg", "OutputFile":"./resvgtestsuite/e-tref-004.svg.cs", "Class":"SVG_e_tref_004", "Namespace":"resvgtestsuite" },
     { "InputFile":"./resvg-test-suite/svg/e-tref-005.svg", "OutputFile":"./resvgtestsuite/e-tref-005.svg.cs", "Class":"SVG_e_tref_005", "Namespace":"resvgtestsuite" },
