@@ -1761,7 +1761,7 @@ namespace Svg.Skia
                                 }
                                 if (saveLayerCanvasCommand.Paint.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (saveLayerCanvasCommand.Paint.ImageFilter != null)
                                 {
@@ -1809,7 +1809,7 @@ namespace Svg.Skia
                                 }
                                 if (drawImageCanvasCommand.Paint?.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (drawImageCanvasCommand.Paint?.ImageFilter != null)
                                 {
@@ -1850,7 +1850,7 @@ namespace Svg.Skia
                                 }
                                 if (drawPathCanvasCommand.Paint.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (drawPathCanvasCommand.Paint.ImageFilter != null)
                                 {
@@ -1898,7 +1898,7 @@ namespace Svg.Skia
                                 }
                                 if (drawPositionedTextCanvasCommand.Paint.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (drawPositionedTextCanvasCommand.Paint.ImageFilter != null)
                                 {
@@ -1940,7 +1940,7 @@ namespace Svg.Skia
                                 }
                                 if (drawTextCanvasCommand.Paint.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (drawTextCanvasCommand.Paint.ImageFilter != null)
                                 {
@@ -1984,7 +1984,7 @@ namespace Svg.Skia
                                 }
                                 if (drawTextOnPathCanvasCommand.Paint.ColorFilter != null)
                                 {
-                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose()");
+                                    sb.AppendLine($"{indent}{counter.PaintVarName}{counterPaint}?.ColorFilter?.Dispose();");
                                 }
                                 if (drawTextOnPathCanvasCommand.Paint.ImageFilter != null)
                                 {
