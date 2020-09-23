@@ -1,7 +1,8 @@
-﻿#nullable disable
+﻿#nullable enable
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Svg;
 using Svg.Skia;
@@ -10,10 +11,19 @@ namespace svgc
 {
     class Settings
     {
-        public System.IO.FileInfo InputFile { get; set; }
-        public System.IO.FileInfo OutputFile { get; set; }
+        public System.IO.FileInfo? InputFile { get; set; }
+        public System.IO.FileInfo? OutputFile { get; set; }
+        public System.IO.FileInfo? JsonFile { get; set; }
         public string Namespace { get; set; } = "Svg";
         public string Class { get; set; } = "Generated";
+    }
+
+    class Item
+    {
+        public string? InputFile { get; set; }
+        public string? OutputFile { get; set; }
+        public string? Namespace { get; set; }
+        public string? Class { get; set; }
     }
 
     class Program
@@ -59,17 +69,24 @@ namespace svgc
 
             var optionInputFile = new Option(new[] { "--inputFile", "-i" }, "The relative or absolute path to the input file")
             {
-                IsRequired = true,
-                Argument = new Argument<System.IO.FileInfo>(getDefaultValue: () => null)
+                IsRequired = false,
+                Argument = new Argument<System.IO.FileInfo?>(getDefaultValue: () => null)
             };
             rootCommand.AddOption(optionInputFile);
 
             var optionOutputFile = new Option(new[] { "--outputFile", "-o" }, "The relative or absolute path to the output file")
             {
-                IsRequired = true,
-                Argument = new Argument<System.IO.FileInfo>(getDefaultValue: () => null)
+                IsRequired = false,
+                Argument = new Argument<System.IO.FileInfo?>(getDefaultValue: () => null)
             };
             rootCommand.AddOption(optionOutputFile);
+
+            var optionJsonFile = new Option(new[] { "--jsonFile", "-j" }, "The relative or absolute path to the json file")
+            {
+                IsRequired = false,
+                Argument = new Argument<System.IO.FileInfo?>(getDefaultValue: () => null)
+            };
+            rootCommand.AddOption(optionJsonFile);
 
             var optionNamespace = new Option(new[] { "--namespace", "-n" }, "The generated C# namespace name")
             {
@@ -89,7 +106,28 @@ namespace svgc
             {
                 try
                 {
-                    Generate(settings.InputFile.FullName, settings.OutputFile.FullName, settings.Namespace, settings.Class);
+                    if (settings.JsonFile != null)
+                    {
+                        var json = System.IO.File.ReadAllText(settings.JsonFile.FullName);
+                        var items = JsonSerializer.Deserialize<Item[]>(json);
+                        if (items != null)
+                        {
+                            foreach (var item in items)
+                            {
+                                if (item.InputFile != null && item.OutputFile != null)
+                                {
+                                    Log($"Generating: {item.OutputFile}");
+                                    Generate(item.InputFile, item.OutputFile, item.Namespace ?? settings.Namespace, item.Class ?? settings.Class);
+                                }
+                            }
+                        }
+                    }
+
+                    if (settings.InputFile != null && settings.OutputFile != null)
+                    {
+                        Log($"Generating: {settings.OutputFile.FullName}");
+                        Generate(settings.InputFile.FullName, settings.OutputFile.FullName, settings.Namespace, settings.Class);
+                    }
                 }
                 catch (Exception ex)
                 {
