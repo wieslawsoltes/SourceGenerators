@@ -19,3 +19,8 @@ jobs:
         dotnet-version: 3.1.301
     - name: Test resvg-test-suite
       run: ./resvg-test-suite.sh
+    - name: Artifacts resvg-test-suite
+      uses: actions/upload-artifact@master
+      with:
+        name: resvgtestsuite
+        path: ./temp/resvgtestsuite
