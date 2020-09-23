@@ -109,7 +109,11 @@ namespace svgc
                     if (settings.JsonFile != null)
                     {
                         var json = System.IO.File.ReadAllText(settings.JsonFile.FullName);
-                        var items = JsonSerializer.Deserialize<Item[]>(json);
+                        var options = new JsonSerializerOptions
+                        {
+                            ReadCommentHandling = JsonCommentHandling.Skip
+                        };
+                        var items = JsonSerializer.Deserialize<Item[]>(json, options);
                         if (items != null)
                         {
                             foreach (var item in items)
