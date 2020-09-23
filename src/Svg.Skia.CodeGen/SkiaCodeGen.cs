@@ -43,7 +43,7 @@ namespace Svg.Skia
 
     internal static class SkiaCodeGenModelExtensions
     {
-        private static CultureInfo _ci = CultureInfo.InvariantCulture;
+        private static readonly CultureInfo _ci = CultureInfo.InvariantCulture;
 
         private static readonly char[] s_fontFamilyTrim = { '\'' };
 
@@ -66,7 +66,7 @@ namespace Svg.Skia
         {
             if (float.IsNaN(value) || float.IsNegativeInfinity(value) || float.IsPositiveInfinity(value))
             {
-                return value.ToString(_ci);
+                return string.Concat("float.", value.ToString(_ci));
             }
             return string.Concat(value.ToString(_ci), "f");
         }
