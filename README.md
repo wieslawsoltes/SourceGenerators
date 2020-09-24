@@ -1,4 +1,4 @@
-# Experimental Svg C# Source Generators
+# Svg to C# Source Generators
 
 ![.NET Core](https://github.com/wieslawsoltes/SourceGenerators/workflows/.NET%20Core/badge.svg)
 
@@ -97,4 +97,4 @@ Json File Format
 
 ## License
 
-Experimental Svg C# Source Generators is licensed under the [MIT license](LICENSE.TXT).
+Svg to C# Source Generators is licensed under the [MIT license](LICENSE.TXT).
