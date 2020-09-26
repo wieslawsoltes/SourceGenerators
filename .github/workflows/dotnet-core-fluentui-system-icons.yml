@@ -1,0 +1,26 @@
+name: .NET Core fluentui-system-icons
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Test fluentui-system-icons
+      run: ./fluentui-system-icons.sh
+    - name: Artifacts fluentui-system-icons
+      uses: actions/upload-artifact@master
+      with:
+        name: fluentui
+        path: ./temp/fluentui
