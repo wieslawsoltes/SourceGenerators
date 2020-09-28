@@ -19,8 +19,3 @@ jobs:
         dotnet-version: 3.1.301
     - name: Test fluentui-system-icons
       run: ./fluentui-system-icons.sh
-    - name: Artifacts fluentui-system-icons
-      uses: actions/upload-artifact@master
-      with:
-        name: fluentui
-        path: ./temp/fluentui

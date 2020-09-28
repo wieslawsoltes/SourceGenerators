@@ -19,8 +19,3 @@ jobs:
         dotnet-version: 3.1.301
     - name: Test W3CTestSuite
       run: ./W3CTestSuite.sh
-    - name: Artifacts W3CTestSuite
-      uses: actions/upload-artifact@master
-      with:
-        name: W3CTestSuite
-        path: ./temp/W3CTestSuite
